@@ -30,9 +30,7 @@
                 "input": "projects/badminton-party-liff-web/public"
               }
             ],
-            "styles": [
-              "projects/badminton-party-liff-web/src/styles.scss"
-            ]
+            "styles": ["projects/badminton-party-liff-web/src/styles.scss"]
           },
           "configurations": {
             "production": {
@@ -72,6 +70,32 @@
         },
         "test": {
           "builder": "@angular/build:unit-test"
+        }
+      }
+    },
+    "badminton-party-sharedlibrary": {
+      "projectType": "library",
+      "root": "projects/badminton-party-sharedlibrary",
+      "sourceRoot": "projects/badminton-party-sharedlibrary/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:ng-packagr",
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/badminton-party-sharedlibrary/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/badminton-party-sharedlibrary/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "tsConfig": "projects/badminton-party-sharedlibrary/tsconfig.spec.json"
+          }
         }
       }
     }

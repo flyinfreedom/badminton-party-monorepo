@@ -3,6 +3,9 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "paths": {
+      "badminton-party-sharedlibrary": ["./dist/badminton-party-sharedlibrary"]
+    },
     "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
@@ -28,6 +31,12 @@
     },
     {
       "path": "./projects/badminton-party-liff-web/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/badminton-party-sharedlibrary/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/badminton-party-sharedlibrary/tsconfig.spec.json"
     }
   ]
 }
