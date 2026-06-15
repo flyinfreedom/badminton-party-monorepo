@@ -1,0 +1,6 @@
+<div class="mt-3 pt-2">
+  <div class="card-day" *ngFor="let groupByDate of groupByDate">
+    <div class="date mt-3 mb-1">{{ groupByDate.date }}</div>
+    <app-group-card [showAvatar]="showAvatar" *ngFor="let group of groupByDate.groups" [group]="group"></app-group-card>
+  </div>
+</div>

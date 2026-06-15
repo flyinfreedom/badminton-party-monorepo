@@ -1,0 +1,51 @@
+@import '../../../assets/variable';
+
+ul {
+  padding-left: 0px;
+  margin:0px;
+}
+
+li {
+  list-style: none;
+  display: flex;
+  justify-items: center;
+  margin-bottom: 12px;
+}
+
+.mat-icon {
+  width: 18px;
+  height: 18px;
+  font-size: 17px;
+}
+
+.info {
+  .mat-icon {
+    width: 24px;
+    height: 24px;
+    font-size: 22px;
+    padding: 1px;
+  }
+}
+
+.other-info {
+  padding-left: 22px;
+  line-height: 1.5em;
+}
+
+.just-display {
+  border: 0px;
+  width: 100%;
+  background-color: transparent;
+}
+
+.status-card {
+  margin-top: 8px;
+  background-color: $color-gray-60;
+  padding: 8px 0px;
+  color: $color-white;
+  border-radius: 20px;
+}
+
+.close {
+  color: $color-gray-60;
+}

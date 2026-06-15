@@ -1,0 +1,13 @@
+<div class="form-title">
+  <div class="line"></div>
+  <div class="title-content">
+    搜尋羽球館
+  </div>
+  <div class="line"></div>
+</div>
+<div class="pt-3" *ngIf="!!courts && courts.length !== 0">
+  <div class="court-card" *ngFor="let court of courts" [routerLink]="'/court/' + court.courtId">
+    <div class="court-card-header">{{ court.courtName }}</div>
+    <div class="court-card-footer">{{ court.location }}</div>
+  </div>
+</div>

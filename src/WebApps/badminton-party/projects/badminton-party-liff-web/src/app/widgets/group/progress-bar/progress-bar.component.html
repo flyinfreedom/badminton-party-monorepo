@@ -1,0 +1,5 @@
+<div class="progress-bar-wrapper">
+  <div class="progress-bar alternate animate" [style.width.%]="getAlternatePercentage()"></div>
+  <div class="progress-bar animate" [style.width.%]="getCurrentPercentage()"></div>
+  <div class="progress-bar-point" [style.left]="getMaxPercentage()"></div>
+</div>

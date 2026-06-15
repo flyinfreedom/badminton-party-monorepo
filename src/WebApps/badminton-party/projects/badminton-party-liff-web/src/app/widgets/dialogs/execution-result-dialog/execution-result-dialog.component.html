@@ -1,0 +1,10 @@
+<div class="dialog-wrapper" (click)="close()">
+  <div class="icon">
+    <img *ngIf="data.type === ExecutionDialogTypeEnum.Successful" src="../../../../assets/img/ic_success.svg">
+    <img *ngIf="data.type === ExecutionDialogTypeEnum.Failed" src="../../../../assets/img/ic_error.svg">
+  </div>
+  <div class="dialog-info" *ngIf="!!data.title || !!data.message">
+    <div class="dialog-title">{{ data.title }}</div>
+    <div class="dialog-message">{{ data.message }}</div>
+  </div>
+</div>

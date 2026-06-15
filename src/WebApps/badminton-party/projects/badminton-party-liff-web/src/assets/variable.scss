@@ -1,0 +1,55 @@
+/* ----  variable  ---- */
+$color-primary: #198964;
+$color-primary-dark: #12543E;
+$color-primary-tint: #65C1A3;
+$color-secondary: #607D8B;
+$color-secondary-dark: #37474F;
+$color-secondary-tint: #CFD8DC;
+$color-accent: #FFBE5E;
+$color-accent-dark: #E5951D;
+$color-accent-tint: #FFDDAA;
+$color-alert: #C01D1D;
+$color-alert-dark: #A00000;
+$color-alert-tint: #FFACAC;
+
+$color-disabled: #E0E0E0;
+
+$gradient-color-primary: #C01D1D, #FFBE5E;
+$gradient-color-secondary: #FFACAC, #FFDDAA;
+$gradient-primary: linear-gradient(225deg, $gradient-color-primary);
+$gradient-secondary: linear-gradient(45deg, $gradient-color-secondary);
+
+$color-gray-100: #212121;
+$color-gray-90: #424242;
+$color-gray-80: #616161;
+$color-gray-70: #757575;
+$color-gray-60: #9E9E9E;
+$color-gray-50: #BDBDBD;
+$color-gray-40: #E0E0E0;
+$color-gray-30: #EEEEEE;
+$color-gray-20: #F5F5F5;
+$color-gray-10: #FAFAFA;
+
+$color-white: #FFFFFF;
+$color-black: #000000;
+
+$color-background-color: #F4F4F4;
+
+$font-size-normal: 12px;
+$font-line-height-normal: 20px;
+
+$font-size-label: 14px;
+$font-line-height-label: 22px;
+
+$font-size-header-1: 24px;
+$font-line-height-header-1: 36px;
+
+$font-size-btn-normal: 14px;
+$font-line-height-btn-normal: 18px;
+
+$font-size-title: 20px;
+$font-line-height-title: 20px;
+
+$margin-small: 4px;
+$margin-normal: 8px;
+$margin-large: 12px;

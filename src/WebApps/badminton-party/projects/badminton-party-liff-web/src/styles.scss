@@ -1,1 +1,35 @@
-/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+$theme: mat.define-theme((
+  color: (
+    theme-type: light,
+    primary: mat.$azure-palette, // 使用內建調色盤
+    tertiary: mat.$blue-palette,
+  ),
+  typography: (
+    brand-family: 'Noto Sans TC',
+    plain-family: 'Noto Sans TC',
+  )
+));
+
+html {
+  @include mat.all-component-themes($theme);
+}
+
+@import './assets/variable';
+@import './assets/base';
+@import './assets/text';
+@import './assets/btn';
+@import './assets/form';
+
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: 'Noto Sans TC', sans-serif;
+ }
+
+ textarea {
+  font-family: 'Noto Sans TC', sans-serif;
+ }

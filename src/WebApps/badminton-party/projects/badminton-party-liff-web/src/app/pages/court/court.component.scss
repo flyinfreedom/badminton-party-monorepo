@@ -1,0 +1,13 @@
+.no-group-icon {
+  width: 96px;
+  height: 96px;
+  font-size: 96px;
+  display: block;
+  margin: 0 auto;
+}
+
+.mt-3 {
+  &.mb-3 {
+    padding: 36px 0px;
+  }
+}

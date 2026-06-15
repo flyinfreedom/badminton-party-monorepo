@@ -23,6 +23,7 @@
           "options": {
             "browser": "projects/badminton-party-liff-web/src/main.ts",
             "tsConfig": "projects/badminton-party-liff-web/tsconfig.app.json",
+            "polyfills": ["zone.js"],
             "inlineStyleLanguage": "scss",
             "assets": [
               {
@@ -37,8 +38,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "1MB",
+                  "maximumError": "2MB"
                 },
                 {
                   "type": "anyComponentStyle",

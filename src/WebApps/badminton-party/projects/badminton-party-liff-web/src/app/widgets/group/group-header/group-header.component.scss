@@ -1,0 +1,19 @@
+h2 {
+  width: 100%;
+  margin: 8px 0px !important;
+}
+
+.flex-column {
+  white-space: nowrap;
+  overflow: hidden; /* 超出部分隱藏 */
+  text-overflow: ellipsis; /* 顯示省略號 */
+}
+
+.progress-info-alternate {
+  margin-left: auto;
+}
+
+.progress-info-alternate {
+  display: inline-block;
+  margin-left: auto;
+}

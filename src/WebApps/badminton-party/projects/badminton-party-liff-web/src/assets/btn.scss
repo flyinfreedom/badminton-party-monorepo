@@ -1,0 +1,91 @@
+//-- btn
+.btn-base {
+  border: 0px;
+  padding: 0px;
+  margin: 0px;
+  background-color: transparent;
+  border: none;
+}
+
+.btn {
+  @extend .btn-base;
+  border-radius: 4px;
+  font-size: $font-size-btn-normal;
+  line-height: $font-line-height-btn-normal;
+  padding: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:focus {
+    outline: none;
+  }
+
+  &.btn-full {
+    width: 100%;
+  }
+
+  &:disabled {
+    background-color: $color-disabled !important;
+  }
+
+  > div {
+    display: flex;
+    align-items: center;
+    line-height: 17px;
+  }
+
+  > .mat-icon {
+    height: 18px;
+    width: 18px;
+    font-size: 18px;
+    margin-right: 8px;
+  }
+}
+
+.btn-primary {
+  background-color: $color-primary-dark;
+  color: $color-white;
+
+  &:active {
+    background-color: $color-primary;
+  }
+}
+
+// .btn-secondary {
+//   background-color: $color-secondary;
+//   color: $color-white;
+
+//   &:active {
+//     background-color: $color-secondary-dark;
+//   }
+// }
+
+.btn-secondary {
+  background-color: $color-white;
+  border: 1px solid $color-primary-dark;
+  color: $color-primary-dark;
+
+  &:active {
+    background-color: $color-gray-20;
+  }
+}
+
+.btn-accent {
+  background-color: $color-accent;
+  color: $color-white;
+
+  &:active {
+    background-color: $color-accent-dark;
+  }
+}
+
+.btn-alert {
+  background-color: $color-white;
+  border: 1px solid $color-alert-dark;
+  color: $color-alert-dark;
+
+  &:active {
+    background-color: $color-gray-20;
+  }
+}

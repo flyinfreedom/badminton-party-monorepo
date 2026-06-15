@@ -1,0 +1,22 @@
+@import '../../../assets/variable';
+
+.court-card {
+  padding: 8px;
+  border: 1px solid $color-gray-60;
+  border-left: 8px solid $color-primary-dark;
+  margin-bottom: 16px;
+  box-shadow: 0px 3px 5px 1px $color-gray-60;
+
+  .court-card-header {
+    font-size: 16px;
+    font-weight: bold;
+    padding-bottom: 8px;
+    border-bottom: 1px solid $color-gray-60;
+  }
+
+  .court-card-footer {
+    padding-top: 8px;
+    font-size: 12px;
+    color: $color-gray-60;
+  }
+}

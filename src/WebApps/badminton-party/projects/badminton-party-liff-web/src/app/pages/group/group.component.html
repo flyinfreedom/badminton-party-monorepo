@@ -1,0 +1,116 @@
+<div *ngIf="group !== null">
+  <app-group-header [group]="group"></app-group-header>
+  <div class="container mt-2" *ngIf="isOwner">
+    <div class="flexible mr-1">
+      <button class="btn btn-full btn-secondary" [routerLink]="'/edit-group/' + groupId">
+        <mat-icon>edit</mat-icon>編輯</button>
+    </div>
+    <div class="flexible ml-1">
+      <button class="btn btn-full btn-secondary" (click)="scrollToTarget()">
+        <mat-icon>group_add</mat-icon>報名清單</button>
+    </div>
+  </div>
+  <div class="group-info" *ngIf="isOpeningGroup() && !this.isOverTime">
+    <div class="mt-2" *ngIf="!hasJoined() && !isOverTime">
+      <button class="btn btn-full btn-primary" (click)="join()">加入</button>
+    </div>
+    <div class="container mt-2" *ngIf="hasJoined() && !isOverTime">
+      <div class="flexible mr-1">
+        <button class="btn btn-full btn-alert" (click)="minusOneMember()">{{ leaveButtonWording() }}</button>
+      </div>
+      <div class="flexible ml-1">
+        <button class="btn btn-full btn-primary" (click)="join()"
+          [disabled]="group.joinedMembers.length >= group.maxPeople + group.alternatePeople">{{ joinButtonWording() }}</button>
+      </div>
+    </div>
+    <div class="container mt-2">
+      <div class="flexible mr-1">
+        <button class="btn btn-full btn-secondary" (click)="copyUrl()">
+          <mat-icon>content_copy</mat-icon>複製連結</button>
+      </div>
+      <div class="flexible ml-1">
+        <button class="btn btn-full btn-secondary" (click)="share()">
+          <mat-icon>share</mat-icon>分享好友</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center status-card" *ngIf="!isOpeningGroup()">
+    團主已關閉
+  </div>
+
+  <div class="text-center status-card" *ngIf="isOpeningGroup() && this.isOverTime">
+    此團已結束
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="info" [ngClass]="{ 'close': !isOpeningGroup() }">
+    <ul>
+      <li class="container">
+        <mat-icon class="mr-1 outline fixed-width">person</mat-icon>
+        <div class="fixed-width text-nowrap">團主：</div>
+        <div class="flexible">{{ group.memberName }}</div>
+      </li>
+      <li class="container">
+        <mat-icon class="mr-1 outline fixed-width">calendar_month</mat-icon>
+        <div class="fixed-width text-nowrap">日期：</div>
+        <div class="flexible">{{ datePipe.transform(group.startTime, 'yyyy/MM/dd') }}</div>
+      </li>
+      <li class="container">
+        <mat-icon class="mr-1 outline fixed-width">schedule</mat-icon>
+        <div class="fixed-width text-nowrap">時間：</div>
+        <div class="flexible">{{ group.startTime | timeRange: group.playTime: true }}</div>
+      </li>
+      <li class="container">
+        <mat-icon class="mr-1 outline fixed-width">location_on</mat-icon>
+        <div class="fixed-width text-nowrap">場地：</div>
+        <div class="flexible">{{ group.courtName }}</div>
+      </li>
+      <li class="container">
+        <mat-icon class="mr-1 outline fixed-width">distance</mat-icon>
+        <div class="fixed-width text-nowrap">地址：</div>
+        <div class="flexible">
+          <a [href]="'https://www.google.com/maps?q=' + group.location" target="_blank">
+            {{ group.location }}
+          </a>
+        </div>
+      </li>
+      <li>
+        <mat-icon class="mr-1 outline fixed-width">attach_money</mat-icon>
+        <div class="fixed-width text-nowrap">費用：</div>
+        <div class="flexible">
+          {{ group.consumptionPatterns | consumptionPatterns:group.amount }}
+        </div>
+      </li>
+      <li>
+        <mat-icon class="mr-1 outline fixed-width">group_add</mat-icon>
+        <div class="fixed-width text-nowrap">候補：</div>
+        <div class="flexible">
+          {{ (group.alternatePeople === 0 ? '無候補' : group.alternatePeople + ' 人') }}
+        </div>
+      </li>
+      <li class="container">
+        <mat-icon class="mr-1 outline fixed-width">star</mat-icon>
+        <div class="fixed-width text-nowrap">程度：</div>
+        <div class="flexible">{{ group.levelGroup | level }}</div>
+      </li>
+      <li class="container">
+        <mat-icon class="mr-1 outline fixed-width">info</mat-icon>
+        <div class="flexible">其他資訊：</div>
+      </li>
+      <li class="other-info">
+        <div [innerHTML]="!!group.otherInfo ? group.otherInfo.replaceAll('\n', '<br/>') : ''"></div>
+      </li>
+    </ul>
+  </div>
+  <div>
+    <div class="divider" #divider></div>
+    <app-member-list [edit-mode]="false" [min-people]="group.minPeople" [max-people]="group.maxPeople" [groupId]="groupId" [member-list]="group.joinedMembers"></app-member-list>
+  </div>
+</div>
+
+<div class="container mt-3"  *ngIf="group !== null">
+  <div class="flexible mr-1"><button class="btn btn-full btn-secondary" type="button" [routerLink]="isOverTime || !isOpeningGroup() ? '/history' : (isOwner ? '/my-group' : '/')">返回</button>
+  </div>
+</div>

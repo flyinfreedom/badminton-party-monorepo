@@ -1,0 +1,29 @@
+<div class="form-title">
+  <div class="line"></div>
+  <div class="title-content">修改個人資料</div>
+  <div class="line"></div>
+</div>
+
+<div class="mt-3 container avatar-wrapper">
+  <div class="avatar" [style.background-image]="'url(' + this.profileService.pictureUrl  + ')'"></div>
+  <div class="flexible ml-2">
+    <button type="button" class="btn btn-secondary" (click)="openFileInput()">
+      <mat-icon>edit</mat-icon>變更圖片</button>
+    <input type="file" id="avatar" #fileInput style="display: none;" (change)="onFileSelected($event)" />
+  </div>
+</div>
+
+<div class="mt-3">
+  <form [formGroup]="memberForm">
+    <label for="userName">姓名：</label>
+    <div class="control-group">
+      <input type="text" class="form-control" id="userName" formControlName="memberName" placeholder="請輸入姓名" />
+    </div>
+  </form>
+</div>
+
+<div class="mt-3 container">
+  <div class="flexible">
+    <button type="button" class="btn btn-primary btn-full" (click)="updateUserName()">儲存</button>
+  </div>
+</div>

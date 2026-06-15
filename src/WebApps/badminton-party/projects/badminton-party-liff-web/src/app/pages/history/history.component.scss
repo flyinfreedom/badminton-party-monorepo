@@ -1,0 +1,27 @@
+.create_group_button {
+  position: fixed;
+  bottom: 60px;
+  right: 20px;
+  z-index: 2;
+  text-align: right;
+
+  > img {
+    margin-right: 20px;
+  }
+}
+
+.no-group {
+  color: #cccccc;
+  line-height: 2rem;
+  padding: 60px 0;
+
+  .mat-icon {
+    height: 76px;
+    width: 76px;
+  }
+
+  .material-icons {
+    font-size: 76px;
+  }
+
+}

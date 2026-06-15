@@ -1,0 +1,15 @@
+<div class="container" *ngIf="!!group">
+  <div class="big-avatar fixed-width ">
+    <div [style.background-image]="'url(' + group.avatar + ')'"></div>
+  </div>
+  <div class="flexible ml-2 flex-column">
+    <div class="group-name"><h2>{{ group.groupName }}</h2></div>
+    <div class="group-progress">
+      <small class="progress-info">報名人數：{{ (getCurrentJoinPeople() + ' / ' + group.maxPeople) }} </small>
+      <small *ngIf="group.joinedMembers.length > group.maxPeople" class="progress-info-alternate">
+        (候補：{{ group.joinedMembers.length - group.maxPeople }}人)
+      </small>
+      <app-progress-bar [max]="group.maxPeople" [alternate]="group.alternatePeople" [current]="group.joinedMembers.length"></app-progress-bar>
+    </div>
+  </div>
+</div>

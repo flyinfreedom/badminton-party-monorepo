@@ -1,0 +1,14 @@
+<div class="form-title">
+  <div class="line"></div>
+  <div class="title-content">
+    <img src="../../../assets/img/create_icon.svg" /> 建立羽球揪團
+  </div>
+  <div class="line"></div>
+</div>
+<app-group-form (valid)="checkValidation($event)" #groupForm></app-group-form>
+
+<div class="footer">
+  <div>
+    <button (click)="submit()" class="btn btn-full btn-primary">開團</button>
+  </div>
+</div>

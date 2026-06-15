@@ -1,0 +1,17 @@
+<div>
+  報名清單：
+  <div class="member-list">
+    <div class="joined-member-wrapper" *ngFor="let member of memberList; let i = index">
+      <div class="joined-member container">
+        <div class="fixed-width member-index">{{ i + 1 }}.</div>
+        <div class="avatar border-secondary fixed-width"
+          [style.background-image]="'url(' +  member.pictureUrl + ')'"></div>
+        <div class="flexible">{{ member.displayName }}</div>
+        <div *ngIf="editMode" class="fixed-width"><button (click)="removeMember(member.memberId)" type="button"
+            class="btn btn-full btn-alert">移除</button></div>
+      </div>
+      <div class="min-people-line text-center mt-2 mb-2" *ngIf="i + 1 == minPeople">--- 已達最少人數 ---</div>
+      <div class="min-people-line text-center mt-2 mb-2" *ngIf="i + 1 == maxPeople">--- 已額滿，下面開始候補 ---</div>
+    </div>
+  </div>
+</div>

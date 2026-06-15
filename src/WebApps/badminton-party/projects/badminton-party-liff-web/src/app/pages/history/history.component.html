@@ -1,0 +1,22 @@
+<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
+  <mat-tab label="過去加入的羽球團" *ngIf="joinedGroups.length">
+    <app-group-list [groups]="joinedGroups" [is-sort-asc]="true"></app-group-list>
+  </mat-tab>
+  <mat-tab label="過去建立的羽球團" *ngIf="createdGroup.length">
+    <app-group-list [groups]="createdGroup" [is-sort-asc]="true" [show-avatar]="false"></app-group-list>
+  </mat-tab>
+</mat-tab-group>
+
+<div class="text-center no-group" *ngIf="init && createdGroup.length === 0 && joinedGroups.length === 0">
+
+  <div class="mt-3 mb-3">
+    <mat-icon>add_task</mat-icon>
+  </div>
+
+  您目前沒有加入或建立任何的羽球團<br/>
+  可至羽球社群尋找或是建立一個新的!
+</div>
+
+<div class="create_group_button">
+  <img src="../../../assets/img/create_group_icon.svg" routerLink="/create-group" />
+</div>

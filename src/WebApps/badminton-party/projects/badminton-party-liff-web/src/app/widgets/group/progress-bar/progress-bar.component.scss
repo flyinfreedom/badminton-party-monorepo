@@ -1,0 +1,47 @@
+@import "../../../../assets/variable";
+
+.progress-bar-wrapper {
+  height: 4px;
+  margin: 4px 0px;
+  border-radius: 2px;
+  background-color: $color-gray-50;
+  position: relative;
+
+  .progress-bar {
+    height: 4px;
+    border-radius: 2px;
+    background: $gradient-primary;
+    position: absolute;
+    top:0px;
+
+    &.alternate {
+      background: $gradient-secondary;
+    }
+  }
+
+  .progress-bar-point {
+    width: 10px;
+    height: 10px;
+    border-radius: 10px;
+    border: 2px solid $color-white;
+    background-color: $color-alert-dark;
+    top:-5px;
+    position: absolute;
+    z-index: 10;
+  }
+}
+
+@keyframes fillProgressBar {
+  from {
+    width: 0;
+  }
+}
+
+.progress-bar.animate {
+  animation: fillProgressBar 1s forwards;
+}
+
+
+.progress-bar.alternate.animate {
+  animation: fillProgressBar 2s forwards;
+}

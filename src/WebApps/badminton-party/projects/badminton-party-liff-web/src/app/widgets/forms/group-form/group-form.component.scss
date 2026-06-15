@@ -1,0 +1,23 @@
+@import '../../../../assets/variable';
+
+.mdc-list-item__primary-text {
+  font-size: 14px;
+}
+
+.required {
+  color: $color-alert-dark;
+}
+
+.mat-mdc-slide-toggle.mat-accent {
+    --mdc-switch-selected-focus-state-layer-color: #198964;
+    --mdc-switch-selected-handle-color: #198964;
+    --mdc-switch-selected-hover-state-layer-color: #198964;
+    --mdc-switch-selected-pressed-state-layer-color: #198964;
+    --mdc-switch-selected-focus-handle-color: #12543E;
+    --mdc-switch-selected-hover-handle-color: #12543E;
+    --mdc-switch-selected-pressed-handle-color: #12543E;
+    --mdc-switch-selected-focus-track-color: #65C1A3;
+    --mdc-switch-selected-hover-track-color: #65C1A3;
+    --mdc-switch-selected-pressed-track-color: #65C1A3;
+    --mdc-switch-selected-track-color: #65C1A3;
+}

@@ -1,0 +1,14 @@
+<div class="dialog-wrapper">
+  <div class="dialog-info" *ngIf="!!data.title || !!data.message">
+    <div class="dialog-title">{{ data.title }}</div>
+    <div class="dialog-message">{{ data.message }}</div>
+  </div>
+  <div class="container mt-3">
+    <div class="flexible mr-1">
+      <button (click)="closeDialog()" type="button" class="btn btn-full btn-secondary">{{ rejectedText }}</button>
+    </div>
+    <div class="flexible ml-1">
+      <button (click)="confirmed()" type="button" class="btn btn-full btn-primary">{{ confirmedText }}</button>
+    </div>
+  </div>
+</div>

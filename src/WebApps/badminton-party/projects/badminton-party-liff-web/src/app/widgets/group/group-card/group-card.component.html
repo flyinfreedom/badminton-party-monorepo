@@ -1,0 +1,27 @@
+<div class="container group-card-wrapper flex-center"  [routerLink]="'/group/' + group.groupId + '/view'">
+  <div class="fixed-width group-card-avatar mr-2" *ngIf="showAvatar">
+    <div [style.background-image]="'url(' + group.avatar  + ')'"></div>
+  </div>
+  <div class="flexible card-info">
+    <div class="container">
+      <div class="group-name flexible">{{ ((group.groupStatus === GroupStatus.Closed ? '【已關閉】 ' : '') + group.groupName) }}</div>
+      <div class="text-nowrap group-info fixed-width">
+        <mat-icon class="mr-1 outline">schedule</mat-icon> {{ group.startTime | timeRange: group.playTime: false }}
+      </div>
+    </div>
+    <div class="group-progress">
+      <app-progress-bar [max]="group.maxPeople" [alternate]="group.alternatePeople" [current]="group.joinedMembers.length"></app-progress-bar>
+    </div>
+    <div class="container">
+      <div class="flexible text-nowrap group-info">
+        <mat-icon class="mr-1 outline">location_on</mat-icon> {{ group.courtName }}
+      </div>
+      <div class="flexible text-nowrap group-info">
+        <mat-icon class="mr-1 outline">star</mat-icon> {{ group.levelGroup | level }}
+      </div>
+      <div class="flexible text-nowrap group-info">
+        <mat-icon class="mr-1 outline">attach_money</mat-icon> {{ group.consumptionPatterns | consumptionPatterns:group.amount }}
+      </div>
+    </div>
+  </div>
+</div>

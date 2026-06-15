@@ -1,0 +1,23 @@
+.joined-member-wrapper {
+  margin-top: 8px;
+}
+
+.joined-member {
+  > div {
+    margin: 4px 8px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+.member-index {
+  width: 24px;
+}
+
+.member-list {
+  position: relative;
+}
+
+.min-people-line {
+  flex-basis: 100%;
+}

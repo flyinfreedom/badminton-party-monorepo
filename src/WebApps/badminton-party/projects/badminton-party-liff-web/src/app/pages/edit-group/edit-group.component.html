@@ -1,0 +1,27 @@
+<div class="form-title">
+  <div class="line"></div>
+  <div class="title-content text-nowrap">
+    <img src="../../../assets/img/create_icon.svg" /> 修改羽球團資訊
+  </div>
+  <div class="line"></div>
+</div>
+
+<div class="text-center status-card" *ngIf="!!group && isOverTime">
+  此團已結束
+</div>
+
+<app-group-form (valid)="checkValidation($event)" [group]="group" [editable]="editable" #groupForm></app-group-form>
+<div>
+  <button (click)="submit()" class="btn btn-full btn-primary" [disabled]="!valid">更新</button>
+</div>
+<div class="divider" #divider></div>
+
+<app-member-list (remove)="removed($event)" [min-people]="group.minPeople" [max-people]="group.maxPeople" *ngIf="!!group" [edit-mode]="!isOverTime" [groupId]="groupId"
+  [member-list]="group!.joinedMembers"></app-member-list>
+
+<div class="container mt-3">
+  <div class="flexible" [ngClass]="{'mr-1': !isOverTime && !!group && group.groupStatus == GroupStatus.Opened}"><button
+      class="btn btn-full btn-secondary" type="button" [routerLink]="'/group/' + groupId + '/view'">返回</button></div>
+  <div class="flexible ml-1" *ngIf="!isOverTime && !!group && group.groupStatus == GroupStatus.Opened"><button class="btn btn-full btn-alert" type="button"
+      (click)="closeGroup()">關閉這次揪團</button></div>
+</div>

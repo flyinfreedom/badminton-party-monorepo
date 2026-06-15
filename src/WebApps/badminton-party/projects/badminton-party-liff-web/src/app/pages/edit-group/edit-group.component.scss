@@ -1,0 +1,10 @@
+@import '../../../assets/variable';
+
+.status-card {
+  margin-top: 8px;
+  margin-bottom: 8px;
+  background-color: $color-gray-60;
+  padding: 8px 0px;
+  color: $color-white;
+  border-radius: 20px;
+}

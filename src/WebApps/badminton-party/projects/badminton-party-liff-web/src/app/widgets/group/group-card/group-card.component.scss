@@ -1,0 +1,62 @@
+@import '../../../../assets/variable';
+.group-card-wrapper {
+  margin-bottom: 8px;
+}
+
+
+.group-card-avatar {
+  height: 72px;
+  width: 72px;
+  border-radius: 50%;
+  background-color: $color-secondary;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+
+  > div {
+    width: 66px;
+    height: 66px;
+    border-radius: 50%;
+    margin: 3px;
+    background-image: url('../../../../assets/img/no_person.svg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+}
+.card-info {
+  padding: 8px 0px;
+}
+
+.group-info {
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  color: $color-gray-60;
+  font-size: 12px;
+  line-height: 20px;
+
+  > .mat-icon {
+    font-size: 16px;
+    height: 16px;
+    width: 16px;
+  }
+}
+
+.group-name {
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  overflow:hidden;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+}
+
+.group-progress {
+  margin: 8px 0px;
+}
+
+.flex-center {
+  display: flex;
+  justify-items: center;
+  align-items: center;
+}

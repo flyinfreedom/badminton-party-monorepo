@@ -1,0 +1,105 @@
+<form [formGroup]="groupForm">
+  <div class="control-group">
+    <label class="form-label"><span class="required">*</span> 球團名稱：</label>
+    <input type="text" formControlName="groupName" class="form-control" placeholder="請輸入揪團名稱" />
+    <div *ngIf="groupForm.controls['groupName'].hasError('required')  && groupForm.controls['groupName'].touched"
+      class="error-message">揪團名稱為必填</div>
+    <div *ngIf="groupForm.controls['groupName'].hasError('maxlength')  && groupForm.controls['groupName'].touched"
+      class="error-message">揪團名稱上限為12個字元</div>
+  </div>
+  <div class="control-group">
+    <label class="form-label">日期：</label>
+    <input matInput readonly [matDatepicker]="picker" (focus)="picker.open()" (click)="picker.open()"
+      (dateChange)="generateTimeOption()" [min]="minDay" formControlName="date" class="form-control">
+    <mat-datepicker #picker></mat-datepicker>
+    <span *ngIf="false" class="error-message"></span>
+  </div>
+  <div class="control-group">
+    <div class="inline-input-contain">
+      <div class="flexible mr-1">
+        <label class="form-label">開始時間：</label>
+        <select class="form-control text-center" formControlName="startTime">
+          <option [value]="option.value" *ngFor="let option of startTimeOptions">{{ option.label }}</option>
+        </select>
+      </div>
+      <div class="flexible ml-1">
+        <label class="form-label">打球時間：</label>
+        <select class="form-control text-center" formControlName="playTime">
+          <option [value]="hour" *ngFor="let hour of hourOptions">{{ hour }} 小時</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="form-label"><span class="required">*</span> 場地名稱： <small style="float:right;">(可選擇或自行輸入)</small></label>
+    <input type="text" formControlName="courtName" class="form-control" [matAutocomplete]="auto"
+      placeholder="請輸入場地名稱" />
+    <mat-autocomplete autoActiveFirstOption (optionSelected)='selectCourt($event.option.value)' #auto="matAutocomplete">
+      <mat-optgroup *ngFor="let group of filteredOptions  | async" [label]="group.label">
+        <mat-option [value]="option.courtId" *ngFor="let option of group.options">{{option.courtName}}</mat-option>
+      </mat-optgroup>
+    </mat-autocomplete>
+    <div *ngIf="groupForm.controls['courtName'].hasError('required')  && groupForm.controls['courtName'].touched"
+      class="error-message">場地名稱為必填</div>
+    <div *ngIf="groupForm.controls['courtName'].hasError('maxlength')" class="error-message">場地名稱長度最多為12個字元</div>
+  </div>
+  <div class="control-group">
+    <label class="form-label">地址：</label>
+    <input type="text" formControlName="location" class="form-control" placeholder="可輸入地址 (非必填)" />
+    <div *ngIf="groupForm.controls['location'].hasError('maxlength')" class="error-message">地址長度最多為100個字元</div>
+  </div>
+  <div class="control-group">
+    <label class="form-label">打球費用</label>
+    <mat-radio-group aria-label="Select an option" formControlName="consumptionPatterns">
+      <mat-radio-button [value]="2">固定費用</mat-radio-button>
+      <mat-radio-button [value]="1">平分</mat-radio-button>
+      <mat-radio-button [value]="0">免費</mat-radio-button>
+    </mat-radio-group>
+    <input type="text" *ngIf="groupForm.value.consumptionPatterns === 2" formControlName="amount" class="form-control"
+      placeholder="請輸入金額" />
+
+    <div *ngIf="groupForm.hasError('requiredAmount')" class="error-message">選擇固定費用 金額為必填且不可為 0</div>
+    <div *ngIf="groupForm.controls['amount'].hasError('max')" class="error-message">金額最大到 9,999</div>
+    <div *ngIf="groupForm.controls['amount'].hasError('pattern')" class="error-message">只能輸入整數且不可為負數</div>
+  </div>
+  <div class="control-group">
+    <div class="inline-input-contain">
+      <div class="flexible mr-1">
+        <label class="form-label">最少人數：</label>
+        <input type="text" formControlName="minPeople" class="form-control text-center" placeholder="請輸入最少人數" />
+      </div>
+      <div class="flexible ml-1">
+        <label class="form-label">上限人數：</label>
+        <input type="text" formControlName="maxPeople" class="form-control text-center" placeholder="請輸入上限人數" />
+      </div>
+    </div>
+    <div *ngIf="groupForm.controls['minPeople'].hasError('required') || groupForm.controls['maxPeople'].hasError('required')" class="error-message">最少人數 與 上限人數為必填</div>
+    <div *ngIf="groupForm.hasError('overPeople')" class="error-message">最少人數不可大於上限人數</div>
+    <div *ngIf="groupForm.controls['minPeople'].hasError('max') || groupForm.controls['maxPeople'].hasError('max')" class="error-message">人數最多 999人</div>
+    <div *ngIf="groupForm.controls['minPeople'].hasError('min') || groupForm.controls['maxPeople'].hasError('min')" class="error-message">人數至少 2</div>
+    <div *ngIf="groupForm.controls['minPeople'].hasError('pattern') || groupForm.controls['maxPeople'].hasError('pattern')" class="error-message">只能輸入整數且不可為負數</div>
+  </div>
+  <div class="control-group">
+    <label class="form-label">候補人數</label>
+    <input type="text" formControlName="alternatePeople" class="form-control text-center" placeholder="請輸入候補人數" />
+    <span *ngIf="false" class="error-message"></span>
+    <div *ngIf="groupForm.controls['alternatePeople'].hasError('required')  && groupForm.controls['alternatePeople'].touched"
+      class="error-message">候補人數為避填，可輸入 0</div>
+    <div *ngIf="groupForm.hasError('alternatePeopleOver')" class="error-message">候補人數不可超過上限人數</div>
+  </div>
+  <div class="control-group">
+    <label class="form-label">程度：</label>
+    <select class="form-control text-center" formControlName="levelGroup">
+      <option [value]="option.value" *ngFor="let option of levelGroupOptions">{{ (+option.label | level) }}</option>
+    </select>
+  </div>
+  <div class="control-group">
+    <mat-slide-toggle formControlName="isPrivate">是否設為不公開 (只有取得連結或接收分享人才可加入)</mat-slide-toggle>
+  </div>
+  <div class="control-group">
+    <label class="form-label">其他資訊：</label>
+    <textarea rows="5" class="form-control control-textarea" formControlName="otherInfo"
+      placeholder="可輸入其他資訊"></textarea>
+    <div *ngIf="groupForm.controls['otherInfo'].hasError('maxlength')" class="error-message">其他資訊最多300個字元</div>
+  </div>
+</form>

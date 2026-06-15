@@ -1,0 +1,34 @@
+<div class="header-wrapper">
+  <div class="header-menu-wrapper">
+    <button mat-icon-button class="btn-base" [matMenuTriggerFor]="menu" aria-label="menu-button">
+      <mat-icon aria-hidden="false" class="menu-icon" aria-label="menu" fontIcon="menu"></mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item routerLink="">
+        <mat-icon>lists</mat-icon>
+        <span>我的羽球團</span>
+      </button>
+      <button mat-menu-item routerLink="/search-court">
+        <mat-icon>search</mat-icon>
+        <span>搜尋球館</span>
+      </button>
+      <button mat-menu-item routerLink="/create-group">
+        <mat-icon>add</mat-icon>
+        <span>揪團打球</span>
+      </button>
+      <button mat-menu-item routerLink="/history">
+        <mat-icon>history</mat-icon>
+        <span>我的歷史紀錄</span>
+      </button>
+    </mat-menu>
+  </div>
+  <div class="header-title-wrapper">
+    <span routerLink="/">羽球派對</span>
+  </div>
+  <div class="header-avatar-wrapper">
+    <div [matMenuTriggerFor]="userMenu" class="avatar" [style.background-image]="'url(' + getAvatarUrl() + ')'"></div>
+    <mat-menu #userMenu="matMenu">
+      <button mat-menu-item routerLink="/user-setting">設定個人資料</button>
+    </mat-menu>
+  </div>
+</div>

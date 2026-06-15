@@ -1,0 +1,37 @@
+<div class="form-title">
+  <div class="line"></div>
+  <div class="title-content">
+    {{ court?.courtName }}
+  </div>
+  <div class="line"></div>
+</div>
+
+<div *ngIf="groups.length !== 0">
+  <app-group-list [groups]="groups"></app-group-list>
+  <div class="form-title pt-3 pb-3">
+    <div class="line"></div>
+  </div>
+</div>
+
+<div class="pt-3" *ngIf="!!groups && groups.length === 0">
+  <div class="mt-3 mb-3">
+    <mat-icon class="no-group-icon">error</mat-icon>
+  </div>
+  <div class="text-center mt-3 mb-3">
+    該場館目前無開團，要不要建立一個?
+  </div>
+  <div class="mt-3">
+    <button class="btn btn-full btn-primary" type="button" routerLink="/create-group">發起羽球團</button>
+  </div>
+</div>
+
+<div class="container mt-3">
+  <div class="flexible mr-1">
+    <button class="btn btn-full btn-secondary" (click)="copyUrl()">
+      <mat-icon>content_copy</mat-icon>複製連結</button>
+  </div>
+  <div class="flexible ml-1">
+    <button class="btn btn-full btn-secondary" (click)="share()">
+      <mat-icon>share</mat-icon>分享好友</button>
+  </div>
+</div>
