@@ -1,3 +1,7 @@
 <Solution>
-  <Folder Name="/src/" />
+  <Folder Name="/src/">
+    <Project Path="src/BadmintonParty.Liff.Web.Api/BadmintonParty.Liff.Web.Api.csproj" />
+    <Project Path="src/Aspire/BadmintonParty.AppHost/BadmintonParty.AppHost.csproj" />
+    <Project Path="src/Aspire/BadmintonParty.ServiceDefaults/BadmintonParty.ServiceDefaults.csproj" />
+  </Folder>
 </Solution>

@@ -1,0 +1,26 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": ".NET Aspire: AppHost",
+            "type": "dotnet",
+            "request": "launch",
+            "projectPath": "${workspaceFolder}/src/Aspire/BadmintonParty.AppHost/BadmintonParty.AppHost.csproj",
+            "launchBrowser": true
+        },
+        {
+            "name": ".NET Core Launch (console)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/src/Aspire/BadmintonParty.AppHost/bin/Debug/net10.0/BadmintonParty.AppHost.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/Aspire/BadmintonParty.AppHost",
+            "console": "internalConsole",
+            "stopAtEntry": false,
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            }
+        }
+    ]
+}

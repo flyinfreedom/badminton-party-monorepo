@@ -10,6 +10,9 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Aspire Service Defaults
+builder.AddServiceDefaults();
+
 // Add services to the container.
 builder.Services.AddOpenApi();
 builder.Services.AddSignalR();
@@ -27,7 +30,7 @@ builder.Services.ConfigureHttpJsonOptions(options =>
 
 // DB Context
 builder.Services.AddDbContext<BadmintonContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("badminton-party")));
 
 // DI Registrations
 builder.Services.AddScoped<GcsHelper>();
@@ -52,6 +55,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.MapDefaultEndpoints();
 
 // Map Endpoints
 app.MapPublicEndpoints();
