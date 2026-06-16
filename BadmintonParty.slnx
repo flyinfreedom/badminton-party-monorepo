@@ -1,5 +1,3 @@
 <Solution>
-  <Folder Name="/src/">
-    <Project Path="src/BadmiintonParty.Liff.Web.Api/BadmiintonParty.Liff.Web.Api.csproj" />
-  </Folder>
+  <Folder Name="/src/" />
 </Solution>
