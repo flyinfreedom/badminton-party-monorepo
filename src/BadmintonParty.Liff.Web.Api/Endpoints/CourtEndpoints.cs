@@ -9,7 +9,7 @@ public static class CourtEndpoints
 {
     public static void MapCourtEndpoints(this IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup("/api/court");
+        var group = app.MapGroup("/court");
         
         group.MapGet("/", async (CourtService service) => await service.GetCourtsAsync());
         group.MapGet("/{courtId}", async (string courtId, CourtService service) => await service.GetCourtById(courtId));

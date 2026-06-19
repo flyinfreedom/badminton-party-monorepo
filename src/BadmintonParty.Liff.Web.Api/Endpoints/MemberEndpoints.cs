@@ -14,7 +14,7 @@ public static class MemberEndpoints
 {
     public static void MapMemberEndpoints(this IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup("/api/member");
+        var group = app.MapGroup("/member");
 
         group.MapGet("/", async (MemberService service, IUserContext userContext) =>
         {

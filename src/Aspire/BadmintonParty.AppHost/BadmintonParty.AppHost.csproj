@@ -1,4 +1,4 @@
-<Project Sdk="Aspire.AppHost.Sdk/13.2.0">
+<Project Sdk="Aspire.AppHost.Sdk/13.4.4">
 
   <ItemGroup>
     <ProjectReference Include="..\..\BadmintonParty.Liff.Web.Api\BadmintonParty.Liff.Web.Api.csproj" />

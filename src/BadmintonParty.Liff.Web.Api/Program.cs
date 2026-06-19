@@ -8,6 +8,8 @@ using BadmintonParty.Liff.Web.Api.Repositories;
 using BadmintonParty.Liff.Web.Api.Services;
 using Microsoft.EntityFrameworkCore;
 
+System.AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Aspire Service Defaults
@@ -69,6 +71,14 @@ protectedGroup.MapMemberEndpoints();
 
 app.UseMiddleware<ResponseMiddleware>();
 app.MapHub<GroupHub>("/groupHub");
+
+// 自動執行資料庫遷移
+if (app.Environment.IsDevelopment())
+{
+    using var scope = app.Services.CreateScope();
+    var dbContext = scope.ServiceProvider.GetRequiredService<BadmintonContext>();
+    await dbContext.Database.MigrateAsync();
+}
 
 app.Run();
 

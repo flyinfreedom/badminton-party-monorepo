@@ -11,7 +11,7 @@ public static class PublicEndpoints
 {
     public static void MapPublicEndpoints(this IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup("/api/public");
+        var group = app.MapGroup("/public");
 
         group.MapPost("/member/init", async (GetMemberProfileRequest request, HttpContext context, LineClientHelper lineClientHelper, IdentityService identityService) =>
         {
