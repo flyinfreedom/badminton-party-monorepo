@@ -18,11 +18,11 @@ html {
   @include mat.all-component-themes($theme);
 }
 
-@import './assets/variable';
-@import './assets/base';
-@import './assets/text';
-@import './assets/btn';
-@import './assets/form';
+@import './styles/variable';
+@import './styles/base';
+@import './styles/text';
+@import './styles/btn';
+@import './styles/form';
 
 html, body { height: 100%; }
 body {
