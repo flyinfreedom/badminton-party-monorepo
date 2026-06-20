@@ -11,8 +11,7 @@ var postgres = builder.AddPostgres("postgres", password: postgresPassword)
 var db = postgres.AddDatabase("badminton-party");
 
 var api = builder.AddProject<Projects.BadmintonParty_Liff_Web_Api>("api")
-    .WithReference(db)
-    .WithExternalHttpEndpoints();
+    .WithReference(db);
 
 builder.AddNpmApp("frontend", "../../WebApps/badminton-party", "start")
     .WithReference(api)

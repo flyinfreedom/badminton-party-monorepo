@@ -4,7 +4,7 @@ export interface IGroupFormRequest {
   groupName: string;
   startTime: string;
   playTime: number;
-  courtId: string;
+  courtId: string | null;
   courtName: string;
   location: string;
   consumptionPatterns: ConsumptionPatterns;
@@ -24,7 +24,7 @@ export interface IGroup {
   startTime: string;
   endTime: string;
   playTime: number;
-  courtId: string;
+  courtId: string | null;
   courtName: string;
   location: string;
   consumptionPatterns: ConsumptionPatterns;

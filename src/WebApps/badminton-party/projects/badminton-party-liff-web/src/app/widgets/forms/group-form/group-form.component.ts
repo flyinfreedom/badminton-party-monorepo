@@ -80,7 +80,7 @@ export class GroupFormComponent implements OnInit, OnChanges, AfterViewChecked {
       minPeople: [2, [Validators.required, Validators.min(2), Validators.max(999), Validators.pattern('^[0-9]*$')]],
       maxPeople: [8, [Validators.required, Validators.min(2), Validators.max(999), Validators.pattern('^[0-9]*$')]],
       alternatePeople: [0, [Validators.required, Validators.min(0), Validators.max(999), Validators.pattern('^[0-9]*$')]],
-      courtId: [0],
+      courtId: [null],
       courtName: ['', [Validators.required, Validators.maxLength(12)]],
       location: ['', Validators.maxLength(100)],
       levelGroup: [LevelGroup.NotLimited, Validators.required],
@@ -162,11 +162,12 @@ export class GroupFormComponent implements OnInit, OnChanges, AfterViewChecked {
 
     const result = Object.assign({}, this.groupForm.value);
 
-    const allCourt = [...this.courtOptions, this.recentOpenings] as ICourt[];
-    result.courtId = `${this.profileService.profile?.memberId}_${new Date().getTime()}`;
+    const allCourt = [...this.courtOptions, ...this.recentOpenings];
     const court = allCourt.find(court => court.courtName === result.courtName && court.location === result.location);
     if (!!court) {
       result.courtId = court.courtId;
+    } else {
+      result.courtId = null;
     }
 
     result.location = result.location ?? '';

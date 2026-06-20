@@ -12,7 +12,7 @@ export class ApiService {
   constructor(private httpClient: HttpClient) {}
 
   public getMemberProfile(request: IGetMemberProfileRequest): Observable<IMemberProfile> {
-    return this.httpClient.post<IMemberProfile>('/api/public/member/init', request);
+    return this.httpClient.post<IMemberProfile>('api/member/init', request);
   }
 
   public getGroupById(groupId: string): Observable<IGroup> {

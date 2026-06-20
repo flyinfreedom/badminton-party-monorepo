@@ -7,6 +7,7 @@ using BadmintonParty.Liff.Web.Api.Middlewares;
 using BadmintonParty.Liff.Web.Api.Repositories;
 using BadmintonParty.Liff.Web.Api.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 System.AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
@@ -61,7 +62,6 @@ app.UseHttpsRedirection();
 app.MapDefaultEndpoints();
 
 // Map Endpoints
-app.MapPublicEndpoints();
 
 var protectedGroup = app.MapGroup("/api");
 protectedGroup.AddEndpointFilter<AuthFilter>();
@@ -87,6 +87,12 @@ public class AuthFilter(LineClientHelper lineClientHelper, IdentityService ident
     public async ValueTask<object?> InvokeAsync(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
     {
         var httpContext = context.HttpContext;
+        var endpoint = httpContext.GetEndpoint();
+        if (endpoint?.Metadata.GetMetadata<IAllowAnonymous>() is not null)
+        {
+            return await next(context);
+        }
+
         httpContext.Request.Headers.TryGetValue("Authorization", out var token);
         if (string.IsNullOrEmpty(token)) return Results.Unauthorized();
 

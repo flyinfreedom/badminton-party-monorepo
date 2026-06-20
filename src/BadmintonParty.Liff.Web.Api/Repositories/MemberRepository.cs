@@ -78,6 +78,17 @@ public class MemberRepository : IMemberRepository
 
     public async Task<bool> UpdateRecentOpening(string memberId, string courtId)
     {
+        if (string.IsNullOrWhiteSpace(courtId))
+        {
+            return false;
+        }
+
+        var courtExists = await _dbContext.Courts.AnyAsync(c => c.CourtId == courtId);
+        if (!courtExists)
+        {
+            return false;
+        }
+
         var existing = await _dbContext.MemberRecentOpenings
             .FirstOrDefaultAsync(ro => ro.MemberId == memberId && ro.CourtId == courtId);
 

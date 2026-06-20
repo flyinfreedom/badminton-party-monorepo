@@ -11,7 +11,7 @@ public class GroupEntity
     public DateTime StartTime { get; set; }
     public DateTime EndTime { get; set; }
     public int PlayTime { get; set; }
-    public string CourtId { get; set; } = string.Empty;
+    public string? CourtId { get; set; }
     public string CourtName { get; set; } = string.Empty;
     public string Location { get; set; } = string.Empty;
     public ConsumptionPatterns ConsumptionPatterns { get; set; }

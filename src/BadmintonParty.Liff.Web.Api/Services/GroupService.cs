@@ -14,15 +14,18 @@ public class GroupService
     private readonly IGroupRepository _groupRepository;
     private readonly IMemberGroupRepository _memberGroupRepository;
     private readonly GroupMembersDistribution _groupMembersDistribution;
+    private readonly ICourtRepository _courtRepository;
 
     public GroupService(
         IGroupRepository groupRepository,
         IMemberGroupRepository memberGroupRepository,
-        GroupMembersDistribution groupMembersDistribution)
+        GroupMembersDistribution groupMembersDistribution,
+        ICourtRepository courtRepository)
     {
         _groupRepository = groupRepository;
         _memberGroupRepository = memberGroupRepository;
         _groupMembersDistribution = groupMembersDistribution;
+        _courtRepository = courtRepository;
     }
 
     public Task<GroupEntity> GetGroupById(string groupId) => _groupRepository.GetGroupById(groupId);
@@ -101,6 +104,16 @@ public class GroupService
     public async Task<GroupEntity> CreateGroup(GroupFormRequest request, IUserContext userContext)
     {
         var now = DateTime.UtcNow;
+        var courtId = string.IsNullOrWhiteSpace(request.CourtId) ? null : request.CourtId;
+        if (courtId != null)
+        {
+            var court = await _courtRepository.GetCourtById(courtId);
+            if (court == null)
+            {
+                courtId = null;
+            }
+        }
+
         var entity = new GroupEntity
         {
             GroupId = Guid.NewGuid().ToString(),
@@ -110,7 +123,7 @@ public class GroupService
             StartTime = request.StartTime.ToUniversalTime(),
             EndTime = request.StartTime.AddHours(request.PlayTime).ToUniversalTime(),
             PlayTime = request.PlayTime,
-            CourtId = request.CourtId,
+            CourtId = courtId,
             CourtName = request.CourtName,
             Location = request.Location,
             ConsumptionPatterns = request.ConsumptionPatterns,
@@ -143,11 +156,21 @@ public class GroupService
         var hasDateChange = group.StartTime != request.StartTime.ToUniversalTime() || group.PlayTime != request.PlayTime;
         var originalStartYearMonth = group.StartTime.ToYearMonthInteger();
 
+        var courtId = string.IsNullOrWhiteSpace(request.CourtId) ? null : request.CourtId;
+        if (courtId != null)
+        {
+            var court = await _courtRepository.GetCourtById(courtId);
+            if (court == null)
+            {
+                courtId = null;
+            }
+        }
+
         group.GroupName = request.GroupName;
         group.StartTime = request.StartTime.ToUniversalTime();
         group.EndTime = request.StartTime.AddHours(request.PlayTime).ToUniversalTime();
         group.PlayTime = request.PlayTime;
-        group.CourtId = request.CourtId;
+        group.CourtId = courtId;
         group.CourtName = request.CourtName;
         group.Location = request.Location;
         group.ConsumptionPatterns = request.ConsumptionPatterns;

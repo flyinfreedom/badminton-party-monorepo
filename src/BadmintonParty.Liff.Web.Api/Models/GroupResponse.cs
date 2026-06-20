@@ -12,7 +12,7 @@ public class GroupResponse
     public DateTime StartTime { get; set; }
     public DateTime EndTime { get; set; }
     public int PlayTime { get; set; }
-    public string CourtId { get; set; }
+    public string? CourtId { get; set; }
     public string CourtName { get; set; }
     public string Location { get; set; }
     public ConsumptionPatterns ConsumptionPatterns { get; set; }

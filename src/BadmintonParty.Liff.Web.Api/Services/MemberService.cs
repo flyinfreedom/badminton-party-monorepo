@@ -19,6 +19,10 @@ public class MemberService
 
     public async Task<bool> HandleRecentOpening(string memberId, GroupFormRequest request)
     {
+        if (string.IsNullOrWhiteSpace(request.CourtId))
+        {
+            return false;
+        }
         return await _memberRepository.UpdateRecentOpening(memberId, request.CourtId);
     }
 

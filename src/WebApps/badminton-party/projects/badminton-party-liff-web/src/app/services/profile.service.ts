@@ -35,8 +35,15 @@ export class ProfileService {
     })
   }
 
-  handleRecentOpening(courtId: string, courtName: string, location: string): void {
-    const court = this.profile!.recentOpenings.find(court => court.courtId === courtId);
+  handleRecentOpening(courtId: string | null, courtName: string, location: string): void {
+    let finalCourtId = courtId;
+    
+    if (!finalCourtId) {
+      const existing = this.profile!.recentOpenings.find(c => c.courtName === courtName && c.location === location);
+      finalCourtId = existing ? existing.courtId : `${this.profile?.memberId}_${new Date().getTime()}`;
+    }
+
+    const court = this.profile!.recentOpenings.find(court => court.courtId === finalCourtId);
 
     if(!!court) {
       court.openingTime = this.datePipe.transform(new Date(), 'yyyy-MM-ddTHH:mm:ss')!;
@@ -51,7 +58,7 @@ export class ProfileService {
     }).splice(2, this.profile!.recentOpenings.length);
 
     this.profile!.recentOpenings.push({
-      courtId: courtId,
+      courtId: finalCourtId,
       courtName: courtName,
       location: location,
       openingTime: this.datePipe.transform(new Date(), 'yyyy-MM-ddTHH:mm:ss')!
