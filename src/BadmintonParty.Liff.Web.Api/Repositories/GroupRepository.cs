@@ -5,6 +5,7 @@ using BadmintonParty.Liff.Web.Api.Entities;
 using BadmintonParty.Liff.Web.Api.Enums;
 using BadmintonParty.Liff.Web.Api.Exceptions;
 using BadmintonParty.Liff.Web.Api.Models;
+using BadmintonParty.Liff.Web.Api.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 public class GroupRepository : IGroupRepository
@@ -49,7 +50,7 @@ public class GroupRepository : IGroupRepository
 
     public Task<List<GroupEntity>> GetGroupsByCourtId(string courtId)
         => _dbContext.Groups
-            .Where(g => g.CourtId == courtId && !g.IsPrivate && g.GroupStatus == GroupStatus.Opened && g.EndTime > DateTime.UtcNow)
+            .Where(g => g.CourtId == courtId && !g.IsPrivate && g.GroupStatus == GroupStatus.Opened && g.EndTime > DateTime.UtcNow.ToTaipeiTime())
             .ToListAsync();
 
     public IEnumerable<GroupEntity> GetGroupByBatchGetItem(HashSet<string> groupIds)
@@ -69,14 +70,15 @@ public class GroupRepository : IGroupRepository
 
         var memberGroup = new GroupMemberEntity
         {
+            GroupMemberId = Guid.NewGuid().ToString(),
             GroupId = groupId,
             MemberId = groupMember.MemberId,
-            JoinTime = groupMember.JoinTime == default ? DateTime.UtcNow : groupMember.JoinTime
+            JoinTime = groupMember.JoinTime == default ? DateTime.UtcNow.ToTaipeiTime() : groupMember.JoinTime
         };
 
         _dbContext.GroupMembers.Add(memberGroup);
         await _dbContext.SaveChangesAsync();
-
+        
         // MemberGroupRepository might need update too
         // await _memberGroupRepository.JoinedGroupAsync(groupMember.MemberId, group.StartTime.ToYearMonthInteger(), group);
         

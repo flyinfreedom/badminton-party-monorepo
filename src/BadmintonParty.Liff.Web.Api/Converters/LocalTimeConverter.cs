@@ -14,17 +14,19 @@ public class LocalTimeConverter : JsonConverter<DateTime>
             var s = reader.GetString();
             if (DateTime.TryParseExact(s, "yyyy-MM-ddTHH:mm:ss", null, DateTimeStyles.AssumeLocal, out var dt))
             {
-                dt = DateTime.SpecifyKind(dt, DateTimeKind.Unspecified);
-                return TimeZoneInfo.ConvertTimeToUtc(dt, MyTimeZone.TaipeiTimeZone);
+                return DateTime.SpecifyKind(dt, DateTimeKind.Unspecified);
             }
-            return dt.ToUniversalTime();
+            if (DateTime.TryParse(s, out var parsedDt))
+            {
+                return DateTime.SpecifyKind(parsedDt, DateTimeKind.Unspecified);
+            }
         }
         return reader.GetDateTime();
     }
 
     public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
     {
-        var local = TimeZoneInfo.ConvertTimeFromUtc(value.ToUniversalTime(), MyTimeZone.TaipeiTimeZone);
+        var local = value.Kind == DateTimeKind.Utc ? TimeZoneInfo.ConvertTimeFromUtc(value.ToUniversalTime(), MyTimeZone.TaipeiTimeZone) : value;
         writer.WriteStringValue(local.ToString("yyyy-MM-ddTHH:mm:ss"));
     }
 }

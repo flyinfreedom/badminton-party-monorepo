@@ -3,6 +3,7 @@ namespace BadmintonParty.Liff.Web.Api.Repositories;
 using BadmintonParty.Liff.Web.Api.Contexts;
 using BadmintonParty.Liff.Web.Api.Entities;
 using BadmintonParty.Liff.Web.Api.Exceptions;
+using BadmintonParty.Liff.Web.Api.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 public class MemberRepository : IMemberRepository
@@ -28,8 +29,8 @@ public class MemberRepository : IMemberRepository
             LineUserId = lineUserId,
             MemberName = userName,
             PictureUrl = pictureUrl,
-            CreateTime = DateTime.UtcNow,
-            UpdateTime = DateTime.UtcNow
+            CreateTime = DateTime.UtcNow.ToTaipeiTime(),
+            UpdateTime = DateTime.UtcNow.ToTaipeiTime()
         };
 
         _dbContext.Members.Add(newMember);
@@ -94,7 +95,7 @@ public class MemberRepository : IMemberRepository
 
         if (existing != null)
         {
-            existing.OpeningTime = DateTime.UtcNow;
+            existing.OpeningTime = DateTime.UtcNow.ToTaipeiTime();
         }
         else
         {
@@ -113,7 +114,7 @@ public class MemberRepository : IMemberRepository
             {
                 MemberId = memberId,
                 CourtId = courtId,
-                OpeningTime = DateTime.UtcNow
+                OpeningTime = DateTime.UtcNow.ToTaipeiTime()
             });
         }
 

@@ -2,6 +2,7 @@ namespace BadmintonParty.Liff.Web.Api.Middlewares;
 
 using BadmintonParty.Liff.Web.Api.Contexts;
 using BadmintonParty.Liff.Web.Api.Helpers;
+using BadmintonParty.Liff.Web.Api.Models;
 using BadmintonParty.Liff.Web.Api.Services;
 
 public class AuthMiddleware(RequestDelegate next)
@@ -34,6 +35,8 @@ public class AuthMiddleware(RequestDelegate next)
     }
 }
 
+
+
 public class ResponseMiddleware(RequestDelegate next)
 {
     public async Task InvokeAsync(HttpContext context)
@@ -45,7 +48,12 @@ public class ResponseMiddleware(RequestDelegate next)
         catch (Exceptions.CustomException ex)
         {
             context.Response.StatusCode = ex.StatusCode;
-            await context.Response.WriteAsJsonAsync(new { ex.Message });
+            await context.Response.WriteAsJsonAsync(ApiResponse.Fail("BUSINESS_ERROR", ex.Message));
+        }
+        catch (System.Exception ex)
+        {
+            context.Response.StatusCode = 500;
+            await context.Response.WriteAsJsonAsync(ApiResponse.Fail("SYSTEM_ERROR", ex.Message));
         }
     }
 }

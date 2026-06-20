@@ -8,7 +8,7 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, empty, finalize, throwError,  } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ExecutionResultDialogComponent } from '../widgets/dialogs/execution-result-dialog/execution-result-dialog.component';
 import { LoadingDialogComponent } from '../widgets/dialogs/loading-dialog/loading-dialog.component';
@@ -28,11 +28,34 @@ export class ResponseInterceptor implements HttpInterceptor {
       this.openDialog();
     }
     return next.handle(req).pipe(
-      catchError((error: HttpErrorResponse) => {
-        if(error.status === 700) {
-          this.openErrorDialog(error.error.message);
+      map((event: HttpEvent<any>) => {
+        if (event instanceof HttpResponse) {
+          const body = event.body;
+          if (body && typeof body === 'object' && 'success' in body && 'data' in body) {
+            if (body.success) {
+              return event.clone({ body: body.data });
+            } else {
+              this.openErrorDialog(body.errorMessage || '操作失敗');
+              throw new HttpErrorResponse({
+                error: body,
+                status: 400,
+                statusText: 'Bad Request',
+                url: req.url
+              });
+            }
+          }
         }
-        throw error;
+        return event;
+      }),
+      catchError((error: HttpErrorResponse) => {
+        if (error.error && typeof error.error === 'object' && 'success' in error.error && 'errorMessage' in error.error) {
+          this.openErrorDialog(error.error.errorMessage || '操作失敗');
+        } else if (error.status === 700) {
+          this.openErrorDialog(error.error?.message || '操作失敗');
+        } else if (error.status === 500) {
+          this.openErrorDialog(error.error?.errorMessage || error.error?.message || '系統發生錯誤');
+        }
+        return throwError(() => error);
       }),
       finalize(() => {
         this.closeLoadingDialog();

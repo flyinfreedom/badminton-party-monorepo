@@ -2,6 +2,7 @@ namespace BadmintonParty.Liff.Web.Api.Entities;
 
 public class GroupMemberEntity
 {
+    public string GroupMemberId { get; set; } = string.Empty;
     public string GroupId { get; set; } = string.Empty;
     public string MemberId { get; set; } = string.Empty;
     public DateTime JoinTime { get; set; }

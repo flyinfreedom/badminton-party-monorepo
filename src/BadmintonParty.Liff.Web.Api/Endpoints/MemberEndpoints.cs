@@ -10,11 +10,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 
+using BadmintonParty.Liff.Web.Api.Filters;
+
 public static class MemberEndpoints
 {
     public static void MapMemberEndpoints(this IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup("/member");
+        var group = app.MapGroup("/member").AddEndpointFilter<ApiResponseFilter>();
 
         group.MapGet("/", async (MemberService service, IUserContext userContext) =>
         {

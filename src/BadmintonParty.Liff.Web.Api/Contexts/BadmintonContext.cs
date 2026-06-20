@@ -42,7 +42,7 @@ public class BadmintonContext : DbContext
 
         modelBuilder.Entity<GroupMemberEntity>(entity =>
         {
-            entity.HasKey(e => new { e.GroupId, e.MemberId });
+            entity.HasKey(e => e.GroupMemberId);
             
             entity.HasOne(e => e.Group)
                 .WithMany(g => g.Members)

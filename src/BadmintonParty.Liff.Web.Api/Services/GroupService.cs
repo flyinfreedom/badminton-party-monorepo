@@ -32,16 +32,16 @@ public class GroupService
 
     public async Task<MyCurrentGroups> GetMyCurrentGroup(string memberId)
     {
-        var now = DateTime.UtcNow;
+        var now = DateTime.UtcNow.ToTaipeiTime();
         var memberGroups = await _memberGroupRepository.GetCurrentMemberGroupAsync(memberId, DateTime.UtcNow.ToTaipeiTime().ToYearMonthInteger());
         
         var createdGroupIds = memberGroups.SelectMany(mg => mg.CreatedGroups)
-            .Where(g => g.EndTime.ToUniversalTime() > now && g.GroupStatus == GroupStatus.Opened)
+            .Where(g => g.EndTime > now && g.GroupStatus == GroupStatus.Opened)
             .Select(g => g.GroupId)
             .ToHashSet();
 
         var joinedGroupIds = memberGroups.SelectMany(mg => mg.JoinedGroups)
-            .Where(g => g.EndTime.ToUniversalTime() > now && g.GroupStatus == GroupStatus.Opened)
+            .Where(g => g.EndTime > now && g.GroupStatus == GroupStatus.Opened)
             .Select(g => g.GroupId)
             .ToHashSet();
 
@@ -54,18 +54,18 @@ public class GroupService
 
     public async Task<MyCurrentGroups> GetMyHistoryGroup(string memberId, int startTimeYearMonth)
     {
-        var now = DateTime.UtcNow;
+        var now = DateTime.UtcNow.ToTaipeiTime();
         var memberGroups = await _memberGroupRepository.GetMemberGroupAsync(memberId, startTimeYearMonth);
 
         if (memberGroups is null) return new MyCurrentGroups();
 
         var createdGroupIds = memberGroups.CreatedGroups
-            .Where(g => g.EndTime.ToUniversalTime() < now || g.GroupStatus == GroupStatus.Closed)
+            .Where(g => g.EndTime < now || g.GroupStatus == GroupStatus.Closed)
             .Select(g => g.GroupId)
             .ToHashSet();
 
         var joinedGroupIds = memberGroups.JoinedGroups
-            .Where(g => g.EndTime.ToUniversalTime() < now || g.GroupStatus == GroupStatus.Closed)
+            .Where(g => g.EndTime < now || g.GroupStatus == GroupStatus.Closed)
             .Select(g => g.GroupId)
             .ToHashSet();
 
@@ -85,7 +85,7 @@ public class GroupService
             PictureUrl = memberProfile.PictureUrl,
             LineUserId = memberProfile.LineUserId,
             MemberId = memberProfile.MemberId,
-            JoinTime = DateTime.UtcNow
+            JoinTime = DateTime.UtcNow.ToTaipeiTime()
         }));
     }
 
@@ -103,7 +103,7 @@ public class GroupService
 
     public async Task<GroupEntity> CreateGroup(GroupFormRequest request, IUserContext userContext)
     {
-        var now = DateTime.UtcNow;
+        var now = DateTime.UtcNow.ToTaipeiTime();
         var courtId = string.IsNullOrWhiteSpace(request.CourtId) ? null : request.CourtId;
         if (courtId != null)
         {
@@ -120,8 +120,8 @@ public class GroupService
             GroupName = request.GroupName,
             GroupStatus = GroupStatus.Opened,
             Avatar = userContext.PictureUrl,
-            StartTime = request.StartTime.ToUniversalTime(),
-            EndTime = request.StartTime.AddHours(request.PlayTime).ToUniversalTime(),
+            StartTime = request.StartTime,
+            EndTime = request.StartTime.AddHours(request.PlayTime),
             PlayTime = request.PlayTime,
             CourtId = courtId,
             CourtName = request.CourtName,
@@ -153,7 +153,7 @@ public class GroupService
         if (group.Members.Count > request.MaxPeople + request.AlternatePeople)
             throw new CustomException("上限人數加候補人數不可小於當前報名人數");
 
-        var hasDateChange = group.StartTime != request.StartTime.ToUniversalTime() || group.PlayTime != request.PlayTime;
+        var hasDateChange = group.StartTime != request.StartTime || group.PlayTime != request.PlayTime;
         var originalStartYearMonth = group.StartTime.ToYearMonthInteger();
 
         var courtId = string.IsNullOrWhiteSpace(request.CourtId) ? null : request.CourtId;
@@ -167,8 +167,8 @@ public class GroupService
         }
 
         group.GroupName = request.GroupName;
-        group.StartTime = request.StartTime.ToUniversalTime();
-        group.EndTime = request.StartTime.AddHours(request.PlayTime).ToUniversalTime();
+        group.StartTime = request.StartTime;
+        group.EndTime = request.StartTime.AddHours(request.PlayTime);
         group.PlayTime = request.PlayTime;
         group.CourtId = courtId;
         group.CourtName = request.CourtName;
@@ -181,7 +181,7 @@ public class GroupService
         group.AlternatePeople = request.AlternatePeople;
         group.OtherInfo = request.OtherInfo;
         group.IsPrivate = request.IsPrivate;
-        group.UpdateTime = DateTime.UtcNow;
+        group.UpdateTime = DateTime.UtcNow.ToTaipeiTime();
 
         if (!await _groupRepository.UpdateGroup(group)) throw new CustomException("更新失敗");
 
