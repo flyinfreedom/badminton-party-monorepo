@@ -145,7 +145,7 @@ public class GroupService
         return entity;
     }
 
-    public async Task<GroupEntity> UpdateGroup(string groupId, string memberId, GroupFormRequest request)
+    public async Task<GroupResponse> UpdateGroup(string groupId, string memberId, GroupFormRequest request)
     {
         var group = await _groupRepository.GetGroupById(groupId);
         if (group.MemberId != memberId) throw new CustomException("您沒有更新這個羽球團的權限");
@@ -197,7 +197,7 @@ public class GroupService
                 group);
         }
 
-        return group;
+        return new GroupResponse(group, group.Creator?.MemberName ?? "");
     }
 
     public async Task<bool> CloseGroup(string groupId, string memberId)

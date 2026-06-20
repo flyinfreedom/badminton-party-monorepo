@@ -29,6 +29,7 @@ builder.Services.AddHttpClient("LineHttpClient", client =>
 builder.Services.ConfigureHttpJsonOptions(options =>
 {
     options.SerializerOptions.Converters.Add(new LocalTimeConverter());
+    options.SerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
 });
 
 // DB Context
