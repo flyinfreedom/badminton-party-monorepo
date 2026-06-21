@@ -1,4 +1,4 @@
-# GCP 設定變數 - 請修改為您實際的設定
+﻿# GCP 設定變數 - 請修改為您實際的設定
 $PROJECT_ID = "your-gcp-project-id"
 $BUCKET_NAME = "your-gcs-bucket-name"
 

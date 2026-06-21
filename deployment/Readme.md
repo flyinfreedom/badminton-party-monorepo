@@ -55,31 +55,54 @@
 
 ### 步驟 1：建置並推送 Docker 映像檔
 
-您可以選擇在本地建置後推送，或是直接使用 GCP Cloud Build 在雲端建置：
+您可以選擇使用我們提供的自動化腳本（推薦），或是手動進行本地建置與 Cloud Build：
 
-#### 方法 A：使用 Cloud Build 在雲端建置（推薦，免去本地 Docker 安裝）
+#### 方法 A：使用自動化建置與推送腳本 (推薦，支援指定版號)
+我們在 `deployment` 資料夾中提供了自動化的建置與推送腳本。腳本會自動定位 Dockerfile 與專案根目錄，並完成建置與推送至 `asia-east1-docker.pkg.dev/badminton-party-488004/badminton-party-api/badminton-party-api:<TAG>`。
+
+* **Windows PowerShell**:
+  ```powershell
+  # 1. 帶參數指定版號 (例如 1.0.0)
+  ./deployment/build-api.ps1 1.0.0
+
+  # 2. 不帶參數執行 (會自動提示輸入版號，直接 Enter 則預設為 latest)
+  ./deployment/build-api.ps1
+  ```
+* **macOS / Linux / WSL**:
+  ```bash
+  # 1. 首次使用時需賦予執行權限
+  chmod +x ./deployment/build-api.sh
+
+  # 2. 帶參數指定版號 (例如 1.0.0)
+  ./deployment/build-api.sh 1.0.0
+
+  # 3. 不帶參數執行 (會自動提示輸入版號，直接 Enter 則預設為 latest)
+  ./deployment/build-api.sh
+  ```
+
+#### 方法 B：使用 Cloud Build 在雲端建置（免去本地 Docker 安裝）
 在專案根目錄下執行：
 ```bash
-gcloud builds submit --tag asia-east1-docker.pkg.dev/<YOUR_GCP_PROJECT_ID>/badminton-party-repo/api:latest -f deployment/Dockerfile .
+gcloud builds submit --tag asia-east1-docker.pkg.dev/badminton-party-488004/badminton-party-api/badminton-party-api:latest -f deployment/Dockerfile .
 ```
 
-#### 方法 B：在本地使用 Docker 建置並推送
-1. 本地建置：
+#### 方法 C：手動在本地使用 Docker建置並推送
+1. 在專案根目錄下執行本地建置：
    ```bash
-   docker build -t asia-east1-docker.pkg.dev/<YOUR_GCP_PROJECT_ID>/badminton-party-repo/api:latest -f deployment/Dockerfile .
+   docker build -t asia-east1-docker.pkg.dev/badminton-party-488004/badminton-party-api/badminton-party-api:latest -f deployment/Dockerfile .
    ```
-2. 設定 Docker 憑證並推送：
+2. 設定 Docker 憑證認證並推送：
    ```bash
    gcloud auth configure-docker asia-east1-docker.pkg.dev
-   docker push asia-east1-docker.pkg.dev/<YOUR_GCP_PROJECT_ID>/badminton-party-repo/api:latest
+   docker push asia-east1-docker.pkg.dev/badminton-party-488004/badminton-party-api/badminton-party-api:latest
    ```
 
 ### 步驟 2：將映像檔部署至 Cloud Run
 
-執行以下指令，將映像檔部署至 Cloud Run：
+執行以下指令，將映像檔部署至 Cloud Run (請將 `latest` 替換為您實際的 Tag 版本號)：
 ```bash
 gcloud run deploy badminton-party-api \
-  --image=asia-east1-docker.pkg.dev/<YOUR_GCP_PROJECT_ID>/badminton-party-repo/api:latest \
+  --image=asia-east1-docker.pkg.dev/badminton-party-488004/badminton-party-api/badminton-party-api:latest \
   --platform=managed \
   --region=asia-east1 \
   --allow-unauthenticated \
