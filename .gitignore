@@ -1,47 +1,168 @@
-# .NET build outputs
-bin/
-obj/
-out/
-artifacts/
+# =========================================================================
+# .NET (dotnet) & Visual Studio / Rider
+# =========================================================================
 
-# Visual Studio / Rider
+# Build outputs & folders
+[Bb]in/
+[Oo]bj/
+[Oo]ut/
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Aa]rm/
+[Aa]rm64/
+bld/
+[Ll]og/
+[Ll]ogs/
+artifacts/
+.artifacts/
+
+# Publish output
+publish/
+*.[Pp]ublish.xml
+*.azurePubxml
+
+# Visual Studio / Rider user & cache files
 .vs/
 .idea/
 *.user
 *.suo
 *.userosscache
 *.sln.docstates
+*.sln.imap
+*.sln.py
+*.userprefs
+mono_crash.*
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
 
-# Logs and test results
-*.log
-TestResults/
+# MSBuild / Compiler files
+*.received.*
+*.VisualState.xml
+TestResult.xml
+nunit-*.xml
 *.trx
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+*.ilk
+*.meta
+*.obj
+*.idb
+*.iobj
+*.pch
+*.pdb
+*.ipdb
+*.pgc
+*.pgd
+*.rsp
+!Directory.Build.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*_wpftmp.csproj
+*.tlog
+*.vspscc
+*.vssscc
+.builds
+*.pidb
+*.svclog
+*.scc
 
-# NuGet
+# Code Coverage & Profiling
+*.coverage
+*.coveragexml
+*.dotCover
+.axoCover/*
+!.axoCover/settings.json
+coverage*.json
+coverage*.xml
+coverage*.info
+
+# NuGet Packages
 *.nupkg
 *.snupkg
 packages/
 
-# ASP.NET / IIS Express
+# ASP.NET / IIS Express / Local Secrets
 *.dbmdl
 *.jfm
+appsettings.local.json
+appsettings.Local.json
+appsettings.user.json
+appsettings.*.user.json
 
+# =========================================================================
 # Node.js / Angular
+# =========================================================================
+
+# Dependency directories
 node_modules/
+jspm_packages/
+web_modules/
+
+# Angular cache and build output
+.angular/
+.cache/
+dist/
+tmp/
+out-tsc/
+bazel-out/
+
+# Logs
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
-.angular/
-.cache/
-dist/
-coverage/
+lerna-debug.log*
 
-# Environment files
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Testing & Coverage
+coverage/
+__screenshots__/
+.nyc_output/
+.sass-cache/
+connect.lock
+libpeerconnection.log
+testem.log
+typings/
+
+# Cypress / Playwright (if any)
+cypress/screenshots/
+cypress/videos/
+playwright-report/
+test-results/
+
+# IDEs & Editor configurations
+.history/
+*.sublime-workspace
+
+# =========================================================================
+# Environment & Secrets
+# =========================================================================
 .env
 .env.*
 !.env.example
 
-# OS files
+# =========================================================================
+# OS-specific files
+# =========================================================================
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
