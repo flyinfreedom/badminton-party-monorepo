@@ -1,4 +1,9 @@
 @use '@angular/material' as mat;
+@use './styles/variable' as *;
+@use './styles/base';
+@use './styles/text';
+@use './styles/btn';
+@use './styles/form';
 
 @include mat.core();
 
@@ -17,12 +22,6 @@ $theme: mat.define-theme((
 html {
   @include mat.all-component-themes($theme);
 }
-
-@import './styles/variable';
-@import './styles/base';
-@import './styles/text';
-@import './styles/btn';
-@import './styles/form';
 
 html, body { height: 100%; }
 body {

@@ -1,3 +1,6 @@
+@use './variable' as *;
+@use './text' as *;
+
 .form-title {
   font-size: $font-size-title;
   line-height: $font-line-height-title;

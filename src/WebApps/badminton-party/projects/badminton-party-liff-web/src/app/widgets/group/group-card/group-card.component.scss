@@ -1,4 +1,4 @@
-@import '../../../../styles/variable';
+@use '../../../../styles/variable' as *;
 .group-card-wrapper {
   margin-bottom: 8px;
 }

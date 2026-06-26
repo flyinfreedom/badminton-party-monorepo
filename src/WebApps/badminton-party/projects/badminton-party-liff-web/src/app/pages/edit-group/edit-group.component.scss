@@ -1,4 +1,4 @@
-@import '../../../styles/variable';
+@use '../../../styles/variable' as *;
 
 .status-card {
   margin-top: 8px;

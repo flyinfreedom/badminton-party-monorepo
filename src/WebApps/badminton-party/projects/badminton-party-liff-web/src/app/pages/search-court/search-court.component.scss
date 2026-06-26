@@ -1,4 +1,4 @@
-@import '../../../styles/variable';
+@use '../../../styles/variable' as *;
 
 .court-card {
   padding: 8px;
