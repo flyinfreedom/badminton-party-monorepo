@@ -21,6 +21,10 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
+            "outputPath": {
+              "base": "dist/cloudflare",
+              "browser": ""
+            },
             "browser": "projects/badminton-party-liff-web/src/main.ts",
             "tsConfig": "projects/badminton-party-liff-web/tsconfig.app.json",
             "polyfills": ["zone.js"],
