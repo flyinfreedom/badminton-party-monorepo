@@ -13,6 +13,9 @@ var db = postgres.AddDatabase("badminton-party");
 var api = builder.AddProject<Projects.BadmintonParty_Liff_Web_Api>("api")
     .WithReference(db);
 
+var webhook = builder.AddProject<Projects.BadmintonParty_Webhook>("webhook")
+    .WithReference(db);
+
 builder.AddNpmApp("frontend", "../../WebApps/badminton-party", "start")
     .WithReference(api)
     .WithEndpoint(port: 4200, targetPort: 4201, scheme: "https", name: "https")

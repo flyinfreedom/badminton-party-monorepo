@@ -1,0 +1,6 @@
+@BadmintonParty.Webhook_HostAddress = http://localhost:5078
+
+GET {{BadmintonParty.Webhook_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

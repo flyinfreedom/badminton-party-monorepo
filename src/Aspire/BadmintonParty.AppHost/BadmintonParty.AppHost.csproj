@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\BadmintonParty.Liff.Web.Api\BadmintonParty.Liff.Web.Api.csproj" />
+    <ProjectReference Include="..\..\BadmintonParty.Webhook\BadmintonParty.Webhook.csproj" />
   </ItemGroup>
 
   <ItemGroup>
