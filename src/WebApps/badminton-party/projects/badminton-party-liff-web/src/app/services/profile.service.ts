@@ -24,11 +24,12 @@ export class ProfileService {
           memberName: liffService.lineUserProfile!.displayName,
           pictureUrl: liffService.lineUserProfile!.pictureUrl + ''
         }).subscribe(res => {
-          if (!res) {
+          if (!res || !res.profile || !res.token) {
             throw Error('get profile failed');
           }
-          this.profile = res;
-          this.pictureUrl = res.pictureUrl;
+          this.liffService.setSysToken(res.token);
+          this.profile = res.profile;
+          this.pictureUrl = res.profile.pictureUrl;
           this.inited$.next(true);
         });
       }

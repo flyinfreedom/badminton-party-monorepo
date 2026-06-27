@@ -18,10 +18,21 @@ export class AuthInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    if (req.url.trim().startsWith('api/member/avatar')) {
+    const isInitReq = req.url.trim().includes('api/member/init');
+    const isAvatarReq = req.url.trim().startsWith('api/member/avatar');
+
+    let authHeaderValue = '';
+    if (isInitReq) {
+      authHeaderValue = this.liffService.getAccessToken() ?? '';
+    } else {
+      const sysToken = this.liffService.getSysToken();
+      authHeaderValue = sysToken ? `Bearer ${sysToken}` : (this.liffService.getAccessToken() ?? '');
+    }
+
+    if (isAvatarReq) {
       req = req.clone({
         setHeaders: {
-          Authorization: this.liffService.getAccessToken() ?? '',
+          Authorization: authHeaderValue,
         },
       });
     } else {
@@ -29,7 +40,7 @@ export class AuthInterceptor implements HttpInterceptor {
         setHeaders: {
           'Content-Type': 'application/json; charset=utf-8',
           Accept: 'application/json',
-          Authorization: this.liffService.getAccessToken() ?? '',
+          Authorization: authHeaderValue,
         },
       });
     }
@@ -37,12 +48,13 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.status === 401) {
-          this.liffService.logout();
-        }
-
-        if (error.status === 701) {
-          this.liffService.gettedProfile$.next(true);
-          this.dialogService.openFailureDialog('Token 失效，已重新取得，請重新再試');
+          if (isInitReq) {
+            this.liffService.logout();
+          } else {
+            this.liffService.clearSysToken();
+            this.liffService.gettedProfile$.next(true);
+            this.dialogService.openFailureDialog('登入逾期，已重新取得授權，請重試剛才的操作');
+          }
         }
         throw error;
       })

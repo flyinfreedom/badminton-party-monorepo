@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IAvatarResponse, IGetMemberProfileRequest, IMemberProfile } from '../models/api-model';
+import { IAvatarResponse, IGetMemberProfileRequest, IMemberProfile, IMemberInitResponse } from '../models/api-model';
 import { ICourt, IGetMyGroupResponse, IGroup, IGroupFormRequest, IGroupMember } from '../models';
 
 @Injectable({
@@ -11,8 +11,8 @@ export class ApiService {
 
   constructor(private httpClient: HttpClient) {}
 
-  public getMemberProfile(request: IGetMemberProfileRequest): Observable<IMemberProfile> {
-    return this.httpClient.post<IMemberProfile>('api/member/init', request);
+  public getMemberProfile(request: IGetMemberProfileRequest): Observable<IMemberInitResponse> {
+    return this.httpClient.post<IMemberInitResponse>('api/member/init', request);
   }
 
   public getGroupById(groupId: string): Observable<IGroup> {

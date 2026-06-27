@@ -22,3 +22,8 @@ export interface IRecentOpening {
 export interface IAvatarResponse {
   avatarUrl: string;
 }
+
+export interface IMemberInitResponse {
+  profile: IMemberProfile;
+  token: string;
+}

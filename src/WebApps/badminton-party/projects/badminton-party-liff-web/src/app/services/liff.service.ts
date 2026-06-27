@@ -16,8 +16,21 @@ interface ILineUserProfile {
 export class LiffService {
   lineUserProfile: ILineUserProfile | null = null;
   gettedProfile$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  private sysTokenKey = 'bp_sys_token';
 
   constructor(private dialogService: DialogService) { }
+
+  getSysToken(): string | null {
+    return localStorage.getItem(this.sysTokenKey);
+  }
+
+  setSysToken(token: string): void {
+    localStorage.setItem(this.sysTokenKey, token);
+  }
+
+  clearSysToken(): void {
+    localStorage.removeItem(this.sysTokenKey);
+  }
 
   initLIFF(): void {
     liff.init({
@@ -46,6 +59,7 @@ export class LiffService {
   }
 
   logout(): void {
+    this.clearSysToken();
     liff.logout();
     location.reload();
   }

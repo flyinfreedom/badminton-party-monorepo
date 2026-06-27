@@ -71,18 +71,35 @@ public static class MemberEndpoints
             return Results.Ok(new { avatarUrl = imageUrl });
         }).DisableAntiforgery();
 
-        group.MapPost("/init", async (GetMemberProfileRequest request, HttpContext context, LineClientHelper lineClientHelper, IdentityService identityService) =>
+        group.MapPost("/init", async (GetMemberProfileRequest request, HttpContext context, LineClientHelper lineClientHelper, IdentityService identityService, JwtService jwtService, Microsoft.Extensions.Logging.ILogger<Program> logger) =>
         {
+            logger.LogInformation("MemberInit: Start authentication process for LineUserId: {LineUserId}.", request.LineUserId);
+
             if (!context.Request.Headers.TryGetValue("Authorization", out var token))
+            {
+                logger.LogWarning("MemberInit: Authorization header is missing in Request.");
                 return Results.BadRequest("don't carry token");
+            }
 
             var verifyResult = await lineClientHelper.VerifyTokenAsync(token!);
             if (verifyResult is null)
+            {
+                logger.LogWarning("MemberInit: LINE Token verification failed. Token starting with: {TokenPart}...", token.ToString().Substring(0, Math.Min(token.ToString().Length, 10)));
                 return Results.BadRequest("token verified fail");
+            }
+
+            logger.LogInformation("MemberInit: LINE Token verified successfully. Expiration: {ExpiresIn} seconds.", verifyResult.ExpiresIn);
 
             var profile = await identityService.GetMemberProfile(request);
-            identityService.SetMemberProfileToCache(token!, profile, TimeSpan.FromSeconds(verifyResult.ExpiresIn));
-            return Results.Ok(profile);
+            var sysToken = jwtService.GenerateToken(profile, TimeSpan.FromSeconds(verifyResult.ExpiresIn));
+
+            logger.LogInformation("MemberInit: System token generated successfully for MemberId: {MemberId}.", profile.MemberId);
+
+            return Results.Ok(new MemberInitResponse
+            {
+                Profile = profile,
+                Token = sysToken
+            });
         }).AllowAnonymous();
 
         group.MapGet("/avatar/{imageKey}", async (string imageKey, GcsHelper gcsHelper) =>
