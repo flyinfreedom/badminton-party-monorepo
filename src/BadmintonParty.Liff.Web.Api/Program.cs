@@ -1,14 +1,19 @@
+using BadmintonParty.Infrastructure.Entities;
+using BadmintonParty.Infrastructure.Enums;
+using BadmintonParty.Infrastructure.Extensions;
+using BadmintonParty.Infrastructure.Contexts;
 using BadmintonParty.Liff.Web.Api.Contexts;
 using BadmintonParty.Liff.Web.Api.Converters;
 using BadmintonParty.Liff.Web.Api.Endpoints;
 using BadmintonParty.Liff.Web.Api.Helpers;
 using BadmintonParty.Liff.Web.Api.Hubs;
 using BadmintonParty.Liff.Web.Api.Middlewares;
-using BadmintonParty.Liff.Web.Api.Repositories;
+using BadmintonParty.Infrastructure.Repositories;
 using BadmintonParty.Liff.Web.Api.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using BadmintonParty.Liff.Web.Api.Models;
+using BadmintonParty.Infrastructure.Models;
 
 System.AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
@@ -34,8 +39,18 @@ builder.Services.ConfigureHttpJsonOptions(options =>
 });
 
 // DB Context
+var connectionString = builder.Configuration.GetConnectionString("badminton-party") ?? string.Empty;
+if (connectionString.Contains("localhost") || string.IsNullOrEmpty(connectionString))
+{
+    var fallback = builder.Configuration.GetConnectionString("badminton_party");
+    if (!string.IsNullOrEmpty(fallback))
+    {
+        connectionString = fallback;
+    }
+}
+
 builder.Services.AddDbContext<BadmintonContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("badminton-party")));
+    options.UseNpgsql(connectionString));
 
 // DI Registrations
 builder.Services.AddScoped<GcsHelper>();

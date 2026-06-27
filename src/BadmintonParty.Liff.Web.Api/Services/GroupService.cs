@@ -1,12 +1,14 @@
 namespace BadmintonParty.Liff.Web.Api.Services;
 
+using BadmintonParty.Infrastructure.Contexts;
 using BadmintonParty.Liff.Web.Api.Contexts;
-using BadmintonParty.Liff.Web.Api.Entities;
-using BadmintonParty.Liff.Web.Api.Enums;
+using BadmintonParty.Infrastructure.Entities;
+using BadmintonParty.Infrastructure.Enums;
 using BadmintonParty.Liff.Web.Api.Exceptions;
-using BadmintonParty.Liff.Web.Api.Extensions;
+using BadmintonParty.Infrastructure.Extensions;
 using BadmintonParty.Liff.Web.Api.Models;
-using BadmintonParty.Liff.Web.Api.Repositories;
+using BadmintonParty.Infrastructure.Models;
+using BadmintonParty.Infrastructure.Repositories;
 using System.Collections.Concurrent;
 
 public class GroupService

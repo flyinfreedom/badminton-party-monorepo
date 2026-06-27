@@ -1,0 +1,30 @@
+# 階段 1：使用 .NET SDK 編譯專案
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
+WORKDIR /app
+
+# 複製方案檔與專案檔，並進行還原 (restore)
+# 注意：此 Dockerfile 的 build context 必須為 monorepo 的根目錄
+COPY ["src/BadmintonParty.Webhook/BadmintonParty.Webhook.csproj", "src/BadmintonParty.Webhook/"]
+COPY ["src/Aspire/BadmintonParty.ServiceDefaults/BadmintonParty.ServiceDefaults.csproj", "src/Aspire/BadmintonParty.ServiceDefaults/"]
+COPY ["src/BadmintonParty.Infrastructure/BadmintonParty.Infrastructure.csproj", "src/BadmintonParty.Infrastructure/"]
+RUN dotnet restore "src/BadmintonParty.Webhook/BadmintonParty.Webhook.csproj"
+
+# 複製其餘所有的原始碼
+COPY . .
+WORKDIR "/app/src/BadmintonParty.Webhook"
+RUN dotnet build "BadmintonParty.Webhook.csproj" -c Release -o /app/build
+
+# 階段 2：發行 (Publish)
+FROM build AS publish
+RUN dotnet publish "BadmintonParty.Webhook.csproj" -c Release -o /app/publish /p:UseAppHost=false
+
+# 階段 3：執行期環境
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+
+# 設定環境變數
+ENV ASPNETCORE_URLS=http://+:8080
+EXPOSE 8080
+
+ENTRYPOINT ["dotnet", "BadmintonParty.Webhook.dll"]

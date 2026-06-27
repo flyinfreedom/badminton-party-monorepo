@@ -1,7 +1,11 @@
+﻿using BadmintonParty.Infrastructure.Repositories;
+using BadmintonParty.Infrastructure.Contexts;
+using BadmintonParty.Infrastructure.Extensions;
+using BadmintonParty.Infrastructure.Models;
 namespace BadmintonParty.Liff.Web.Api.Models;
 
-using BadmintonParty.Liff.Web.Api.Entities;
-using BadmintonParty.Liff.Web.Api.Enums;
+using BadmintonParty.Infrastructure.Entities;
+using BadmintonParty.Infrastructure.Enums;
 
 public class GroupResponse
 {

@@ -1,8 +1,12 @@
+﻿using BadmintonParty.Infrastructure.Enums;
+using BadmintonParty.Infrastructure.Contexts;
+using BadmintonParty.Infrastructure.Extensions;
 namespace BadmintonParty.Liff.Web.Api.Services;
 
-using BadmintonParty.Liff.Web.Api.Entities;
+using BadmintonParty.Infrastructure.Entities;
 using BadmintonParty.Liff.Web.Api.Models;
-using BadmintonParty.Liff.Web.Api.Repositories;
+using BadmintonParty.Infrastructure.Models;
+using BadmintonParty.Infrastructure.Repositories;
 
 public class MemberService
 {

@@ -7,11 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Line.Messaging.NETCore" Version="1.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.9" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Aspire\BadmintonParty.ServiceDefaults\BadmintonParty.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\BadmintonParty.Infrastructure\BadmintonParty.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
