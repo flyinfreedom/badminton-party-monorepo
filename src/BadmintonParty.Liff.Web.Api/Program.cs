@@ -85,86 +85,58 @@ if (app.Environment.IsDevelopment())
 
 app.Run();
 
-public class AuthFilter(JwtService jwtService, IUserContext userContext, ILogger<AuthFilter> logger) : IEndpointFilter
+public class AuthFilter(JwtService jwtService, IUserContext userContext) : IEndpointFilter
 {
     public async ValueTask<object?> InvokeAsync(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
     {
         var httpContext = context.HttpContext;
-        var path = httpContext.Request.Path;
-        var method = httpContext.Request.Method;
+        var endpoint = httpContext.GetEndpoint();
 
-        logger.LogInformation("AuthFilter: Step 1 - Entry. Path: {Method} {Path}", method, path);
-
-        try
+        if (endpoint?.Metadata.GetMetadata<IAllowAnonymous>() is not null)
         {
-            var endpoint = httpContext.GetEndpoint();
-            logger.LogInformation("AuthFilter: Step 2 - Got endpoint. IsNull: {IsNull}", endpoint is null);
-
-            if (endpoint?.Metadata.GetMetadata<IAllowAnonymous>() is not null)
-            {
-                logger.LogInformation("AuthFilter: Step 3 - AllowAnonymous. Path: {Method} {Path}", method, path);
-                return await next(context);
-            }
-
-            logger.LogInformation("AuthFilter: Step 4 - Reading Authorization Header.");
-            httpContext.Request.Headers.TryGetValue("Authorization", out var authHeader);
-            logger.LogInformation("AuthFilter: Step 5 - Authorization Header Value: '{Header}'", authHeader.ToString());
-
-            if (string.IsNullOrEmpty(authHeader))
-            {
-                logger.LogInformation("AuthFilter: Step 6 - Auth Header is missing. Returning 401.");
-                return Results.Unauthorized();
-            }
-
-            var token = authHeader.ToString().Replace("Bearer ", "").Trim();
-            logger.LogInformation("AuthFilter: Step 7 - Parsed Token: '{Token}'", token);
-
-            if (string.IsNullOrEmpty(token))
-            {
-                logger.LogInformation("AuthFilter: Step 8 - Token is empty. Returning 401.");
-                return Results.Unauthorized();
-            }
-
-            logger.LogInformation("AuthFilter: Step 9 - Calling ValidateToken.");
-            var principal = jwtService.ValidateToken(token);
-            logger.LogInformation("AuthFilter: Step 10 - ValidateToken finished. Principal IsNull: {IsNull}", principal is null);
-
-            if (principal is null)
-            {
-                logger.LogInformation("AuthFilter: Step 11 - Principal is null. Returning 401.");
-                return Results.Unauthorized();
-            }
-
-            logger.LogInformation("AuthFilter: Step 12 - Extracting Claims.");
-            var memberId = principal.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value 
-                           ?? principal.FindFirst("sub")?.Value 
-                           ?? principal.FindFirst("nameid")?.Value;
-            var lineUserId = principal.FindFirst("LineUserId")?.Value;
-            logger.LogInformation("AuthFilter: Step 13 - Extracted Claims - MemberId: '{MemberId}', LineUserId: '{LineUserId}'", memberId, lineUserId);
-
-            if (string.IsNullOrEmpty(memberId) || string.IsNullOrEmpty(lineUserId))
-            {
-                logger.LogInformation("AuthFilter: Step 14 - Missing claims. Returning 401.");
-                return Results.Unauthorized();
-            }
-
-            logger.LogInformation("AuthFilter: Step 15 - Success. MemberId: {MemberId}", memberId);
-
-            userContext.SetUserProfile(new MemberProfile
-            {
-                MemberId = memberId,
-                LineUserId = lineUserId,
-                DisplayName = principal.FindFirst("DisplayName")?.Value ?? string.Empty,
-                PictureUrl = principal.FindFirst("PictureUrl")?.Value ?? string.Empty
-            });
-
             return await next(context);
         }
-        catch (Exception ex)
+
+        httpContext.Request.Headers.TryGetValue("Authorization", out var authHeader);
+
+        if (string.IsNullOrEmpty(authHeader))
         {
-            logger.LogError(ex, "AuthFilter: Critical Exception occurred during InvokeAsync.");
-            throw;
+            return Results.Unauthorized();
         }
+
+        var token = authHeader.ToString().Replace("Bearer ", "").Trim();
+
+        if (string.IsNullOrEmpty(token))
+        {
+            return Results.Unauthorized();
+        }
+
+        var principal = jwtService.ValidateToken(token);
+
+        if (principal is null)
+        {
+            return Results.Unauthorized();
+        }
+
+        var memberId = principal.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value 
+                       ?? principal.FindFirst("sub")?.Value 
+                       ?? principal.FindFirst("nameid")?.Value;
+        var lineUserId = principal.FindFirst("LineUserId")?.Value;
+
+        if (string.IsNullOrEmpty(memberId) || string.IsNullOrEmpty(lineUserId))
+        {
+            return Results.Unauthorized();
+        }
+
+        userContext.SetUserProfile(new MemberProfile
+        {
+            MemberId = memberId,
+            LineUserId = lineUserId,
+            DisplayName = principal.FindFirst("DisplayName")?.Value ?? string.Empty,
+            PictureUrl = principal.FindFirst("PictureUrl")?.Value ?? string.Empty
+        });
+
+        return await next(context);
     }
 }
 
