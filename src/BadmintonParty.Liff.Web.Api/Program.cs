@@ -72,7 +72,7 @@ protectedGroup.MapCourtEndpoints();
 protectedGroup.MapGroupEndpoints();
 protectedGroup.MapMemberEndpoints();
 
-app.UseMiddleware<ResponseMiddleware>();
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.MapHub<GroupHub>("/groupHub");
 
 // 自動執行資料庫遷移

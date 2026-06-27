@@ -45,10 +45,13 @@ public class GroupService
             .Select(g => g.GroupId)
             .ToHashSet();
 
+        var createdGroups = await _groupRepository.GetGroupByBatchGetItemAsync(createdGroupIds);
+        var joinedGroups = await _groupRepository.GetGroupByBatchGetItemAsync(joinedGroupIds);
+
         return new MyCurrentGroups
         {
-            CreatedGroups = _groupRepository.GetGroupByBatchGetItem(createdGroupIds).Select(g => new GroupResponse(g)).ToList(),
-            JoinedGroups = _groupRepository.GetGroupByBatchGetItem(joinedGroupIds).Select(g => new GroupResponse(g)).ToList()
+            CreatedGroups = createdGroups.Select(g => new GroupResponse(g)).ToList(),
+            JoinedGroups = joinedGroups.Select(g => new GroupResponse(g)).ToList()
         };
     }
 
@@ -69,10 +72,13 @@ public class GroupService
             .Select(g => g.GroupId)
             .ToHashSet();
 
+        var createdGroups = await _groupRepository.GetGroupByBatchGetItemAsync(createdGroupIds);
+        var joinedGroups = await _groupRepository.GetGroupByBatchGetItemAsync(joinedGroupIds);
+
         return new MyCurrentGroups
         {
-            CreatedGroups = _groupRepository.GetGroupByBatchGetItem(createdGroupIds).Select(g => new GroupResponse(g)).ToList(),
-            JoinedGroups = _groupRepository.GetGroupByBatchGetItem(joinedGroupIds).Select(g => new GroupResponse(g)).ToList()
+            CreatedGroups = createdGroups.Select(g => new GroupResponse(g)).ToList(),
+            JoinedGroups = joinedGroups.Select(g => new GroupResponse(g)).ToList()
         };
     }
 

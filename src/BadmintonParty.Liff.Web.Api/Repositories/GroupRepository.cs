@@ -53,14 +53,14 @@ public class GroupRepository : IGroupRepository
             .Where(g => g.CourtId == courtId && !g.IsPrivate && g.GroupStatus == GroupStatus.Opened && g.EndTime > DateTime.UtcNow.ToTaipeiTime())
             .ToListAsync();
 
-    public IEnumerable<GroupEntity> GetGroupByBatchGetItem(HashSet<string> groupIds)
+    public async Task<List<GroupEntity>> GetGroupByBatchGetItemAsync(HashSet<string> groupIds)
     {
-        if (groupIds.Count == 0) return Enumerable.Empty<GroupEntity>();
+        if (groupIds.Count == 0) return new List<GroupEntity>();
 
-        return _dbContext.Groups
+        return await _dbContext.Groups
             .Include(g => g.Members)
             .Where(g => groupIds.Contains(g.GroupId))
-            .ToList();
+            .ToListAsync();
     }
 
     public async Task<bool> JoinGroup(string groupId, GroupMember groupMember)
